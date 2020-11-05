@@ -1,4 +1,4 @@
-// Generated from D:/Users/juanm/Desktop/SemanticAnalyzer/grammar\bccGrammar.g4 by ANTLR 4.8
+// Generated from D:/Users/juanm/Desktop/SemanticAnalyzer/grammar\BccLanguage.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class bccGrammarParser extends Parser {
+public class BccLanguageParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.8", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
@@ -22,7 +22,7 @@ public class bccGrammarParser extends Parser {
 		T__24=25, T__25=26, DATATYPE=27, FUNCTION=28, VAR=29, PRINT=30, INPUT=31, 
 		WHEN=32, IF=33, UNLESS=34, WHILE=35, REPEAT=36, RETURN=37, UNTIL=38, LOOP=39, 
 		DO=40, ELSE=41, AND=42, OR=43, FOR=44, NEXT=45, BREAK=46, NOT=47, BOOL=48, 
-		END=49, NUM=50, FID=51, ID=52, ESP=53;
+		END=49, NUM=50, ID=51, FID=52, ESP=53;
 	public static final int
 		RULE_prog = 0, RULE_var_decl = 1, RULE_fn_decl_list = 2, RULE_stmt_block = 3, 
 		RULE_stmt = 4, RULE_lexpr = 5, RULE_nexpr = 6, RULE_rexpr = 7, RULE_simple_expr = 8, 
@@ -52,8 +52,8 @@ public class bccGrammarParser extends Parser {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, "DATATYPE", "FUNCTION", "VAR", "PRINT", "INPUT", "WHEN", 
 			"IF", "UNLESS", "WHILE", "REPEAT", "RETURN", "UNTIL", "LOOP", "DO", "ELSE", 
-			"AND", "OR", "FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", "NUM", "FID", 
-			"ID", "ESP"
+			"AND", "OR", "FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", "NUM", "ID", 
+			"FID", "ESP"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -91,7 +91,7 @@ public class bccGrammarParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "bccGrammar.g4"; }
+	public String getGrammarFileName() { return "BccLanguage.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -102,7 +102,7 @@ public class bccGrammarParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public bccGrammarParser(TokenStream input) {
+	public BccLanguageParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
@@ -119,8 +119,16 @@ public class bccGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_prog; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterProg(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitProg(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitProg(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitProg(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -149,21 +157,29 @@ public class bccGrammarParser extends Parser {
 	}
 
 	public static class Var_declContext extends ParserRuleContext {
-		public List<TerminalNode> ID() { return getTokens(bccGrammarParser.ID); }
+		public List<TerminalNode> ID() { return getTokens(BccLanguageParser.ID); }
 		public TerminalNode ID(int i) {
-			return getToken(bccGrammarParser.ID, i);
+			return getToken(BccLanguageParser.ID, i);
 		}
-		public List<TerminalNode> DATATYPE() { return getTokens(bccGrammarParser.DATATYPE); }
+		public List<TerminalNode> DATATYPE() { return getTokens(BccLanguageParser.DATATYPE); }
 		public TerminalNode DATATYPE(int i) {
-			return getToken(bccGrammarParser.DATATYPE, i);
+			return getToken(BccLanguageParser.DATATYPE, i);
 		}
 		public Var_declContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_var_decl; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterVar_decl(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitVar_decl(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitVar_decl(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitVar_decl(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -215,9 +231,9 @@ public class bccGrammarParser extends Parser {
 	}
 
 	public static class Fn_decl_listContext extends ParserRuleContext {
-		public TerminalNode FUNCTION() { return getToken(bccGrammarParser.FUNCTION, 0); }
-		public TerminalNode FID() { return getToken(bccGrammarParser.FID, 0); }
-		public TerminalNode DATATYPE() { return getToken(bccGrammarParser.DATATYPE, 0); }
+		public TerminalNode FUNCTION() { return getToken(BccLanguageParser.FUNCTION, 0); }
+		public TerminalNode FID() { return getToken(BccLanguageParser.FID, 0); }
+		public TerminalNode DATATYPE() { return getToken(BccLanguageParser.DATATYPE, 0); }
 		public Stmt_blockContext stmt_block() {
 			return getRuleContext(Stmt_blockContext.class,0);
 		}
@@ -227,14 +243,22 @@ public class bccGrammarParser extends Parser {
 		public Var_declContext var_decl(int i) {
 			return getRuleContext(Var_declContext.class,i);
 		}
-		public TerminalNode VAR() { return getToken(bccGrammarParser.VAR, 0); }
+		public TerminalNode VAR() { return getToken(BccLanguageParser.VAR, 0); }
 		public Fn_decl_listContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_fn_decl_list; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterFn_decl_list(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitFn_decl_list(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitFn_decl_list(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitFn_decl_list(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -309,8 +333,16 @@ public class bccGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_stmt_block; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterStmt_block(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitStmt_block(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitStmt_block(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitStmt_block(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -385,42 +417,50 @@ public class bccGrammarParser extends Parser {
 	}
 
 	public static class StmtContext extends ParserRuleContext {
-		public TerminalNode PRINT() { return getToken(bccGrammarParser.PRINT, 0); }
+		public TerminalNode PRINT() { return getToken(BccLanguageParser.PRINT, 0); }
 		public List<LexprContext> lexpr() {
 			return getRuleContexts(LexprContext.class);
 		}
 		public LexprContext lexpr(int i) {
 			return getRuleContext(LexprContext.class,i);
 		}
-		public TerminalNode INPUT() { return getToken(bccGrammarParser.INPUT, 0); }
-		public TerminalNode ID() { return getToken(bccGrammarParser.ID, 0); }
-		public TerminalNode WHEN() { return getToken(bccGrammarParser.WHEN, 0); }
-		public TerminalNode DO() { return getToken(bccGrammarParser.DO, 0); }
+		public TerminalNode INPUT() { return getToken(BccLanguageParser.INPUT, 0); }
+		public TerminalNode ID() { return getToken(BccLanguageParser.ID, 0); }
+		public TerminalNode WHEN() { return getToken(BccLanguageParser.WHEN, 0); }
+		public TerminalNode DO() { return getToken(BccLanguageParser.DO, 0); }
 		public List<Stmt_blockContext> stmt_block() {
 			return getRuleContexts(Stmt_blockContext.class);
 		}
 		public Stmt_blockContext stmt_block(int i) {
 			return getRuleContext(Stmt_blockContext.class,i);
 		}
-		public TerminalNode IF() { return getToken(bccGrammarParser.IF, 0); }
-		public TerminalNode ELSE() { return getToken(bccGrammarParser.ELSE, 0); }
-		public TerminalNode UNLESS() { return getToken(bccGrammarParser.UNLESS, 0); }
-		public TerminalNode WHILE() { return getToken(bccGrammarParser.WHILE, 0); }
-		public TerminalNode RETURN() { return getToken(bccGrammarParser.RETURN, 0); }
-		public TerminalNode UNTIL() { return getToken(bccGrammarParser.UNTIL, 0); }
-		public TerminalNode LOOP() { return getToken(bccGrammarParser.LOOP, 0); }
-		public TerminalNode REPEAT() { return getToken(bccGrammarParser.REPEAT, 0); }
-		public TerminalNode NUM() { return getToken(bccGrammarParser.NUM, 0); }
-		public TerminalNode FOR() { return getToken(bccGrammarParser.FOR, 0); }
-		public TerminalNode NEXT() { return getToken(bccGrammarParser.NEXT, 0); }
-		public TerminalNode BREAK() { return getToken(bccGrammarParser.BREAK, 0); }
+		public TerminalNode IF() { return getToken(BccLanguageParser.IF, 0); }
+		public TerminalNode ELSE() { return getToken(BccLanguageParser.ELSE, 0); }
+		public TerminalNode UNLESS() { return getToken(BccLanguageParser.UNLESS, 0); }
+		public TerminalNode WHILE() { return getToken(BccLanguageParser.WHILE, 0); }
+		public TerminalNode RETURN() { return getToken(BccLanguageParser.RETURN, 0); }
+		public TerminalNode UNTIL() { return getToken(BccLanguageParser.UNTIL, 0); }
+		public TerminalNode LOOP() { return getToken(BccLanguageParser.LOOP, 0); }
+		public TerminalNode REPEAT() { return getToken(BccLanguageParser.REPEAT, 0); }
+		public TerminalNode NUM() { return getToken(BccLanguageParser.NUM, 0); }
+		public TerminalNode FOR() { return getToken(BccLanguageParser.FOR, 0); }
+		public TerminalNode NEXT() { return getToken(BccLanguageParser.NEXT, 0); }
+		public TerminalNode BREAK() { return getToken(BccLanguageParser.BREAK, 0); }
 		public StmtContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_stmt; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterStmt(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitStmt(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitStmt(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitStmt(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -795,21 +835,29 @@ public class bccGrammarParser extends Parser {
 		public NexprContext nexpr(int i) {
 			return getRuleContext(NexprContext.class,i);
 		}
-		public List<TerminalNode> AND() { return getTokens(bccGrammarParser.AND); }
+		public List<TerminalNode> AND() { return getTokens(BccLanguageParser.AND); }
 		public TerminalNode AND(int i) {
-			return getToken(bccGrammarParser.AND, i);
+			return getToken(BccLanguageParser.AND, i);
 		}
-		public List<TerminalNode> OR() { return getTokens(bccGrammarParser.OR); }
+		public List<TerminalNode> OR() { return getTokens(BccLanguageParser.OR); }
 		public TerminalNode OR(int i) {
-			return getToken(bccGrammarParser.OR, i);
+			return getToken(BccLanguageParser.OR, i);
 		}
 		public LexprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_lexpr; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterLexpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitLexpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitLexpr(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitLexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -881,7 +929,7 @@ public class bccGrammarParser extends Parser {
 	}
 
 	public static class NexprContext extends ParserRuleContext {
-		public TerminalNode NOT() { return getToken(bccGrammarParser.NOT, 0); }
+		public TerminalNode NOT() { return getToken(BccLanguageParser.NOT, 0); }
 		public LexprContext lexpr() {
 			return getRuleContext(LexprContext.class,0);
 		}
@@ -893,8 +941,16 @@ public class bccGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_nexpr; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterNexpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitNexpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitNexpr(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitNexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -924,8 +980,8 @@ public class bccGrammarParser extends Parser {
 			case T__14:
 			case BOOL:
 			case NUM:
-			case FID:
 			case ID:
+			case FID:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(216);
@@ -959,8 +1015,16 @@ public class bccGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_rexpr; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterRexpr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitRexpr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitRexpr(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitRexpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1019,8 +1083,16 @@ public class bccGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_simple_expr; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterSimple_expr(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitSimple_expr(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitSimple_expr(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitSimple_expr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1083,8 +1155,16 @@ public class bccGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_term; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterTerm(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitTerm(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitTerm(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitTerm(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1136,23 +1216,31 @@ public class bccGrammarParser extends Parser {
 	}
 
 	public static class FactorContext extends ParserRuleContext {
-		public TerminalNode NUM() { return getToken(bccGrammarParser.NUM, 0); }
-		public TerminalNode BOOL() { return getToken(bccGrammarParser.BOOL, 0); }
-		public TerminalNode ID() { return getToken(bccGrammarParser.ID, 0); }
+		public TerminalNode NUM() { return getToken(BccLanguageParser.NUM, 0); }
+		public TerminalNode BOOL() { return getToken(BccLanguageParser.BOOL, 0); }
+		public TerminalNode ID() { return getToken(BccLanguageParser.ID, 0); }
 		public List<LexprContext> lexpr() {
 			return getRuleContexts(LexprContext.class);
 		}
 		public LexprContext lexpr(int i) {
 			return getRuleContext(LexprContext.class,i);
 		}
-		public TerminalNode FID() { return getToken(bccGrammarParser.FID, 0); }
+		public TerminalNode FID() { return getToken(BccLanguageParser.FID, 0); }
 		public FactorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_factor; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterFactor(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitFactor(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitFactor(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitFactor(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1257,7 +1345,7 @@ public class bccGrammarParser extends Parser {
 				setState(265);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__13) | (1L << T__14) | (1L << NOT) | (1L << BOOL) | (1L << NUM) | (1L << FID) | (1L << ID))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__13) | (1L << T__14) | (1L << NOT) | (1L << BOOL) | (1L << NUM) | (1L << ID) | (1L << FID))) != 0)) {
 					{
 					setState(257);
 					lexpr();
@@ -1298,8 +1386,8 @@ public class bccGrammarParser extends Parser {
 	}
 
 	public static class Main_progContext extends ParserRuleContext {
-		public TerminalNode END() { return getToken(bccGrammarParser.END, 0); }
-		public TerminalNode VAR() { return getToken(bccGrammarParser.VAR, 0); }
+		public TerminalNode END() { return getToken(BccLanguageParser.END, 0); }
+		public TerminalNode VAR() { return getToken(BccLanguageParser.VAR, 0); }
 		public Var_declContext var_decl() {
 			return getRuleContext(Var_declContext.class,0);
 		}
@@ -1314,8 +1402,16 @@ public class bccGrammarParser extends Parser {
 		}
 		@Override public int getRuleIndex() { return RULE_main_prog; }
 		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).enterMain_prog(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BccLanguageListener ) ((BccLanguageListener)listener).exitMain_prog(this);
+		}
+		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof bccGrammarVisitor ) return ((bccGrammarVisitor<? extends T>)visitor).visitMain_prog(this);
+			if ( visitor instanceof BccLanguageVisitor ) return ((BccLanguageVisitor<? extends T>)visitor).visitMain_prog(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -1395,15 +1491,15 @@ public class bccGrammarParser extends Parser {
 		"\3\2\2\2\6)\3\2\2\2\bC\3\2\2\2\n\u00c2\3\2\2\2\f\u00c4\3\2\2\2\16\u00db"+
 		"\3\2\2\2\20\u00dd\3\2\2\2\22\u00e2\3\2\2\2\24\u00ea\3\2\2\2\26\u010e\3"+
 		"\2\2\2\30\u0114\3\2\2\2\32\33\5\6\4\2\33\34\5\30\r\2\34\3\3\2\2\2\35\36"+
-		"\7\66\2\2\36\37\7\3\2\2\37&\7\35\2\2 !\7\4\2\2!\"\7\66\2\2\"#\7\3\2\2"+
+		"\7\65\2\2\36\37\7\3\2\2\37&\7\35\2\2 !\7\4\2\2!\"\7\65\2\2\"#\7\3\2\2"+
 		"#%\7\35\2\2$ \3\2\2\2%(\3\2\2\2&$\3\2\2\2&\'\3\2\2\2\'\5\3\2\2\2(&\3\2"+
-		"\2\2)*\7\36\2\2*+\7\65\2\2+,\7\3\2\2,-\7\35\2\2-/\7\5\2\2.\60\5\4\3\2"+
+		"\2\2)*\7\36\2\2*+\7\66\2\2+,\7\3\2\2,-\7\35\2\2-/\7\5\2\2.\60\5\4\3\2"+
 		"/.\3\2\2\2/\60\3\2\2\2\60\61\3\2\2\2\61\66\7\6\2\2\62\63\7\37\2\2\63\64"+
 		"\5\4\3\2\64\65\7\7\2\2\65\67\3\2\2\2\66\62\3\2\2\2\66\67\3\2\2\2\678\3"+
 		"\2\2\289\5\b\5\29\7\3\2\2\2:<\7\b\2\2;=\5\n\6\2<;\3\2\2\2=>\3\2\2\2><"+
 		"\3\2\2\2>?\3\2\2\2?@\3\2\2\2@A\7\t\2\2AD\3\2\2\2BD\5\n\6\2C:\3\2\2\2C"+
 		"B\3\2\2\2D\t\3\2\2\2EF\7 \2\2FG\5\f\7\2GH\7\7\2\2H\u00c3\3\2\2\2IJ\7!"+
-		"\2\2JK\7\66\2\2K\u00c3\7\7\2\2LM\7\"\2\2MN\7\5\2\2NO\5\f\7\2OP\7\6\2\2"+
+		"\2\2JK\7\65\2\2K\u00c3\7\7\2\2LM\7\"\2\2MN\7\5\2\2NO\5\f\7\2OP\7\6\2\2"+
 		"PQ\7*\2\2QR\5\b\5\2R\u00c3\3\2\2\2ST\7#\2\2TU\7\5\2\2UV\5\f\7\2VW\7\6"+
 		"\2\2WX\7*\2\2XY\5\b\5\2YZ\7+\2\2Z[\5\b\5\2[\u00c3\3\2\2\2\\]\7$\2\2]^"+
 		"\7\5\2\2^_\5\f\7\2_`\7\6\2\2`a\7*\2\2ab\5\b\5\2b\u00c3\3\2\2\2cd\7%\2"+
@@ -1418,18 +1514,18 @@ public class bccGrammarParser extends Parser {
 		"\2\2\u008d\u008e\5\f\7\2\u008e\u008f\7\7\2\2\u008f\u0090\5\f\7\2\u0090"+
 		"\u0091\7\6\2\2\u0091\u0092\7*\2\2\u0092\u0093\5\b\5\2\u0093\u00c3\3\2"+
 		"\2\2\u0094\u0095\7/\2\2\u0095\u00c3\7\7\2\2\u0096\u0097\7\60\2\2\u0097"+
-		"\u00c3\7\7\2\2\u0098\u0099\7\66\2\2\u0099\u009a\7\n\2\2\u009a\u009b\5"+
-		"\f\7\2\u009b\u009c\7\7\2\2\u009c\u00c3\3\2\2\2\u009d\u009e\7\66\2\2\u009e"+
+		"\u00c3\7\7\2\2\u0098\u0099\7\65\2\2\u0099\u009a\7\n\2\2\u009a\u009b\5"+
+		"\f\7\2\u009b\u009c\7\7\2\2\u009c\u00c3\3\2\2\2\u009d\u009e\7\65\2\2\u009e"+
 		"\u009f\7\13\2\2\u009f\u00a0\5\f\7\2\u00a0\u00a1\7\7\2\2\u00a1\u00c3\3"+
-		"\2\2\2\u00a2\u00a3\7\66\2\2\u00a3\u00a4\7\f\2\2\u00a4\u00a5\5\f\7\2\u00a5"+
-		"\u00a6\7\7\2\2\u00a6\u00c3\3\2\2\2\u00a7\u00a8\7\66\2\2\u00a8\u00a9\7"+
+		"\2\2\2\u00a2\u00a3\7\65\2\2\u00a3\u00a4\7\f\2\2\u00a4\u00a5\5\f\7\2\u00a5"+
+		"\u00a6\7\7\2\2\u00a6\u00c3\3\2\2\2\u00a7\u00a8\7\65\2\2\u00a8\u00a9\7"+
 		"\r\2\2\u00a9\u00aa\5\f\7\2\u00aa\u00ab\7\7\2\2\u00ab\u00c3\3\2\2\2\u00ac"+
-		"\u00ad\7\66\2\2\u00ad\u00ae\7\16\2\2\u00ae\u00af\5\f\7\2\u00af\u00b0\7"+
-		"\7\2\2\u00b0\u00c3\3\2\2\2\u00b1\u00b2\7\66\2\2\u00b2\u00b3\7\17\2\2\u00b3"+
-		"\u00b4\5\f\7\2\u00b4\u00b5\7\7\2\2\u00b5\u00c3\3\2\2\2\u00b6\u00b7\7\66"+
-		"\2\2\u00b7\u00b8\7\20\2\2\u00b8\u00c3\7\7\2\2\u00b9\u00ba\7\66\2\2\u00ba"+
+		"\u00ad\7\65\2\2\u00ad\u00ae\7\16\2\2\u00ae\u00af\5\f\7\2\u00af\u00b0\7"+
+		"\7\2\2\u00b0\u00c3\3\2\2\2\u00b1\u00b2\7\65\2\2\u00b2\u00b3\7\17\2\2\u00b3"+
+		"\u00b4\5\f\7\2\u00b4\u00b5\7\7\2\2\u00b5\u00c3\3\2\2\2\u00b6\u00b7\7\65"+
+		"\2\2\u00b7\u00b8\7\20\2\2\u00b8\u00c3\7\7\2\2\u00b9\u00ba\7\65\2\2\u00ba"+
 		"\u00bb\7\21\2\2\u00bb\u00c3\7\7\2\2\u00bc\u00bd\7\21\2\2\u00bd\u00be\7"+
-		"\66\2\2\u00be\u00c3\7\7\2\2\u00bf\u00c0\7\20\2\2\u00c0\u00c1\7\66\2\2"+
+		"\65\2\2\u00be\u00c3\7\7\2\2\u00bf\u00c0\7\20\2\2\u00c0\u00c1\7\65\2\2"+
 		"\u00c1\u00c3\7\7\2\2\u00c2E\3\2\2\2\u00c2I\3\2\2\2\u00c2L\3\2\2\2\u00c2"+
 		"S\3\2\2\2\u00c2\\\3\2\2\2\u00c2c\3\2\2\2\u00c2j\3\2\2\2\u00c2n\3\2\2\2"+
 		"\u00c2u\3\2\2\2\u00c2w\3\2\2\2\u00c2~\3\2\2\2\u00c2\u0085\3\2\2\2\u00c2"+
@@ -1452,11 +1548,11 @@ public class bccGrammarParser extends Parser {
 		"\u00e7\3\2\2\2\u00ea\u00ef\5\26\f\2\u00eb\u00ec\t\4\2\2\u00ec\u00ee\5"+
 		"\26\f\2\u00ed\u00eb\3\2\2\2\u00ee\u00f1\3\2\2\2\u00ef\u00ed\3\2\2\2\u00ef"+
 		"\u00f0\3\2\2\2\u00f0\25\3\2\2\2\u00f1\u00ef\3\2\2\2\u00f2\u010f\7\64\2"+
-		"\2\u00f3\u010f\7\62\2\2\u00f4\u00f6\7\66\2\2\u00f5\u00f7\t\5\2\2\u00f6"+
+		"\2\u00f3\u010f\7\62\2\2\u00f4\u00f6\7\65\2\2\u00f5\u00f7\t\5\2\2\u00f6"+
 		"\u00f5\3\2\2\2\u00f6\u00f7\3\2\2\2\u00f7\u010f\3\2\2\2\u00f8\u00fa\t\5"+
 		"\2\2\u00f9\u00f8\3\2\2\2\u00f9\u00fa\3\2\2\2\u00fa\u00fb\3\2\2\2\u00fb"+
-		"\u010f\7\66\2\2\u00fc\u010f\7\66\2\2\u00fd\u00fe\7\5\2\2\u00fe\u00ff\5"+
-		"\f\7\2\u00ff\u0100\7\6\2\2\u0100\u010f\3\2\2\2\u0101\u0102\7\65\2\2\u0102"+
+		"\u010f\7\65\2\2\u00fc\u010f\7\65\2\2\u00fd\u00fe\7\5\2\2\u00fe\u00ff\5"+
+		"\f\7\2\u00ff\u0100\7\6\2\2\u0100\u010f\3\2\2\2\u0101\u0102\7\66\2\2\u0102"+
 		"\u010b\7\5\2\2\u0103\u0108\5\f\7\2\u0104\u0105\7\4\2\2\u0105\u0107\5\f"+
 		"\7\2\u0106\u0104\3\2\2\2\u0107\u010a\3\2\2\2\u0108\u0106\3\2\2\2\u0108"+
 		"\u0109\3\2\2\2\u0109\u010c\3\2\2\2\u010a\u0108\3\2\2\2\u010b\u0103\3\2"+
