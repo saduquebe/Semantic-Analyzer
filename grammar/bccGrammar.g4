@@ -69,10 +69,9 @@ factor  : NUM
 main_prog   : (VAR var_decl ';')? stmt* END
             ;
 
-ID: [a-zA-Z]+ ;
+
 DATATYPE: ('num' | 'bool');
 FUNCTION: 'function';
-FID: [a-zA-Z]+;
 VAR: 'var';
 PRINT: 'print';
 INPUT: 'input';
@@ -86,7 +85,7 @@ UNTIL: 'until';
 LOOP: 'loop';
 DO: 'do';
 ELSE: 'else';
-NUM: [0-9]+([.][0-9]+);
+
 AND: 'and';
 OR: 'or';
 FOR: 'for';
@@ -95,5 +94,7 @@ BREAK: 'break';
 NOT: 'not';
 BOOL: ('true' | 'false');
 END: 'end';
-
+NUM: [0-9]+([.][0-9]+);
+FID: [a-zA-Z]+;
+ID: [a-zA-Z]+ ;
 ESP : [ \t\r\n]+ -> skip ;
