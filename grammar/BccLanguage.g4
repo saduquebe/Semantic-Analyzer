@@ -53,7 +53,7 @@ rexpr   : simple_expr (('<'|'=='|'<='|'>'|'>='|'!=') simple_expr)?
 simple_expr : term (('+'|'-') term)*
             ;
 
-term    : factor (('*'|'/'|'%') factor)*
+term    : factor ((MUL|DIV|MOD) factor)*
         ;
 
 factor  : NUM
@@ -69,7 +69,9 @@ factor  : NUM
 main_prog   : (VAR var_decl ';')? stmt* END
             ;
 
-
+MUL: '*';
+DIV: '/';
+MOD: '%';
 DATATYPE: ('num' | 'bool');
 FUNCTION: 'function';
 VAR: 'var';

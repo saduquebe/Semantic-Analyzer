@@ -18,11 +18,11 @@ public class BccLanguageParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, DATATYPE=27, FUNCTION=28, VAR=29, PRINT=30, INPUT=31, 
-		WHEN=32, IF=33, UNLESS=34, WHILE=35, REPEAT=36, RETURN=37, UNTIL=38, LOOP=39, 
-		DO=40, ELSE=41, AND=42, OR=43, FOR=44, NEXT=45, BREAK=46, NOT=47, BOOL=48, 
-		END=49, NUM=50, ID=51, FID=52, ESP=53;
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, MUL=24, DIV=25, 
+		MOD=26, DATATYPE=27, FUNCTION=28, VAR=29, PRINT=30, INPUT=31, WHEN=32, 
+		IF=33, UNLESS=34, WHILE=35, REPEAT=36, RETURN=37, UNTIL=38, LOOP=39, DO=40, 
+		ELSE=41, AND=42, OR=43, FOR=44, NEXT=45, BREAK=46, NOT=47, BOOL=48, END=49, 
+		NUM=50, ID=51, FID=52, ESP=53;
 	public static final int
 		RULE_prog = 0, RULE_var_decl = 1, RULE_fn_decl_list = 2, RULE_stmt_block = 3, 
 		RULE_stmt = 4, RULE_lexpr = 5, RULE_nexpr = 6, RULE_rexpr = 7, RULE_simple_expr = 8, 
@@ -50,10 +50,10 @@ public class BccLanguageParser extends Parser {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, "DATATYPE", "FUNCTION", "VAR", "PRINT", "INPUT", "WHEN", 
-			"IF", "UNLESS", "WHILE", "REPEAT", "RETURN", "UNTIL", "LOOP", "DO", "ELSE", 
-			"AND", "OR", "FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", "NUM", "ID", 
-			"FID", "ESP"
+			"MUL", "DIV", "MOD", "DATATYPE", "FUNCTION", "VAR", "PRINT", "INPUT", 
+			"WHEN", "IF", "UNLESS", "WHILE", "REPEAT", "RETURN", "UNTIL", "LOOP", 
+			"DO", "ELSE", "AND", "OR", "FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", 
+			"NUM", "ID", "FID", "ESP"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -1150,6 +1150,18 @@ public class BccLanguageParser extends Parser {
 		public FactorContext factor(int i) {
 			return getRuleContext(FactorContext.class,i);
 		}
+		public List<TerminalNode> MUL() { return getTokens(BccLanguageParser.MUL); }
+		public TerminalNode MUL(int i) {
+			return getToken(BccLanguageParser.MUL, i);
+		}
+		public List<TerminalNode> DIV() { return getTokens(BccLanguageParser.DIV); }
+		public TerminalNode DIV(int i) {
+			return getToken(BccLanguageParser.DIV, i);
+		}
+		public List<TerminalNode> MOD() { return getTokens(BccLanguageParser.MOD); }
+		public TerminalNode MOD(int i) {
+			return getToken(BccLanguageParser.MOD, i);
+		}
 		public TermContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1181,12 +1193,12 @@ public class BccLanguageParser extends Parser {
 			setState(237);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__23) | (1L << T__24) | (1L << T__25))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MUL) | (1L << DIV) | (1L << MOD))) != 0)) {
 				{
 				{
 				setState(233);
 				_la = _input.LA(1);
-				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__23) | (1L << T__24) | (1L << T__25))) != 0)) ) {
+				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << MUL) | (1L << DIV) | (1L << MOD))) != 0)) ) {
 				_errHandler.recoverInline(this);
 				}
 				else {

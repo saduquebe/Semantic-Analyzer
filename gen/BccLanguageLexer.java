@@ -18,11 +18,11 @@ public class BccLanguageLexer extends Lexer {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-		T__24=25, T__25=26, DATATYPE=27, FUNCTION=28, VAR=29, PRINT=30, INPUT=31, 
-		WHEN=32, IF=33, UNLESS=34, WHILE=35, REPEAT=36, RETURN=37, UNTIL=38, LOOP=39, 
-		DO=40, ELSE=41, AND=42, OR=43, FOR=44, NEXT=45, BREAK=46, NOT=47, BOOL=48, 
-		END=49, NUM=50, ID=51, FID=52, ESP=53;
+		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, MUL=24, DIV=25, 
+		MOD=26, DATATYPE=27, FUNCTION=28, VAR=29, PRINT=30, INPUT=31, WHEN=32, 
+		IF=33, UNLESS=34, WHILE=35, REPEAT=36, RETURN=37, UNTIL=38, LOOP=39, DO=40, 
+		ELSE=41, AND=42, OR=43, FOR=44, NEXT=45, BREAK=46, NOT=47, BOOL=48, END=49, 
+		NUM=50, ID=51, FID=52, ESP=53;
 	public static String[] channelNames = {
 		"DEFAULT_TOKEN_CHANNEL", "HIDDEN"
 	};
@@ -35,11 +35,10 @@ public class BccLanguageLexer extends Lexer {
 		return new String[] {
 			"T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", "T__7", "T__8", 
 			"T__9", "T__10", "T__11", "T__12", "T__13", "T__14", "T__15", "T__16", 
-			"T__17", "T__18", "T__19", "T__20", "T__21", "T__22", "T__23", "T__24", 
-			"T__25", "DATATYPE", "FUNCTION", "VAR", "PRINT", "INPUT", "WHEN", "IF", 
-			"UNLESS", "WHILE", "REPEAT", "RETURN", "UNTIL", "LOOP", "DO", "ELSE", 
-			"AND", "OR", "FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", "NUM", "ID", 
-			"FID", "ESP"
+			"T__17", "T__18", "T__19", "T__20", "T__21", "T__22", "MUL", "DIV", "MOD", 
+			"DATATYPE", "FUNCTION", "VAR", "PRINT", "INPUT", "WHEN", "IF", "UNLESS", 
+			"WHILE", "REPEAT", "RETURN", "UNTIL", "LOOP", "DO", "ELSE", "AND", "OR", 
+			"FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", "NUM", "ID", "FID", "ESP"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -59,10 +58,10 @@ public class BccLanguageLexer extends Lexer {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, "DATATYPE", "FUNCTION", "VAR", "PRINT", "INPUT", "WHEN", 
-			"IF", "UNLESS", "WHILE", "REPEAT", "RETURN", "UNTIL", "LOOP", "DO", "ELSE", 
-			"AND", "OR", "FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", "NUM", "ID", 
-			"FID", "ESP"
+			"MUL", "DIV", "MOD", "DATATYPE", "FUNCTION", "VAR", "PRINT", "INPUT", 
+			"WHEN", "IF", "UNLESS", "WHILE", "REPEAT", "RETURN", "UNTIL", "LOOP", 
+			"DO", "ELSE", "AND", "OR", "FOR", "NEXT", "BREAK", "NOT", "BOOL", "END", 
+			"NUM", "ID", "FID", "ESP"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
