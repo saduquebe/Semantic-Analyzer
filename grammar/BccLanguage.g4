@@ -1,6 +1,6 @@
 grammar BccLanguage;
 
-prog    : fn_decl_list main_prog;
+prog    : fn_decl_list* main_prog;
 
 var_decl: ID ':' DATATYPE (',' ID ':' DATATYPE)*;
 
@@ -36,8 +36,8 @@ stmt    : PRINT lexpr ';'
         | ID '%=' lexpr ';'
         | ID '++' ';'
         | ID '--' ';'
-        | '--' ID ';'
-        | '++' ID ';'
+        | SUBS ID ';'
+        | ADD ID ';'
         ;
 
 lexpr   : nexpr ((AND nexpr)* | (OR nexpr)*)
@@ -95,8 +95,10 @@ NEXT: 'next';
 BREAK: 'break';
 NOT: 'not';
 BOOL: ('true' | 'false');
+SUBS: '--';
+ADD: '++';
 END: 'end';
 NUM: [0-9]+([.][0-9]+)?;
-ID: [a-zA-Z]+ ;
 FID: [a-zA-Z]+;
+ID: [a-zA-Z]+ ;
 ESP : [ \t\r\n]+ -> skip ;

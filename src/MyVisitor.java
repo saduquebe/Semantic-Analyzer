@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
@@ -6,7 +7,10 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
     @Override
     public  T visitProg(BccLanguageParser.ProgContext ctx){
-        return null;
+        for(int i =0 ; i< ctx.fn_decl_list().size(); i++){
+            visitFn_decl_list(ctx.fn_decl_list(i));
+        }
+        return visitMain_prog(ctx.main_prog());
     }
     @Override
     public T visitVar_decl(BccLanguageParser.Var_declContext ctx){
@@ -29,16 +33,120 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
     @Override
     public T visitFn_decl_list(BccLanguageParser.Fn_decl_listContext ctx){
+        if (ctx.var_decl(0) != null){
+            visitVar_decl(ctx.var_decl(0));
+        }
+        if(ctx.VAR() != null){
+            visitVar_decl(ctx.var_decl(1));
+        }
+        visitStmt_block(ctx.stmt_block());
+
         return null;
     }
 
     @Override
     public T visitStmt_block(BccLanguageParser.Stmt_blockContext ctx){
+        int stmtSize = ctx.stmt().size();
+        if(stmtSize > 1){
+            for (int i = 0; i < stmtSize; i++){
+                visitStmt(ctx.stmt(0));
+            }
+        }
+        else{
+            visitStmt(ctx.stmt(1));
+        }
         return null;
     }
 
     @Override
     public T visitStmt(BccLanguageParser.StmtContext ctx){
+        if(ctx.PRINT() != null){
+            System.out.println("Se debe imprimir lo que retorne el lexpr");
+            System.out.println(visitLexpr(ctx.lexpr(0)));
+        }
+        else if (ctx.INPUT() != null){
+            Scanner scan = new Scanner(System.in);
+            String id = ctx.ID().getSymbol().getText();
+            System.out.println(id);
+            if(table.containsKey(id)) {
+                System.out.println("Se va a reemplazar el valor de: "+ id);
+                if((Double) table.get(id)== 0.0){
+                    table.replace(id,scan.nextDouble());
+                }
+                else{
+                    table.replace(id,scan.nextBoolean());
+                }
+            }
+        }
+        else if(ctx.WHEN() != null){
+            //Hacer hasta que lexpr se de ?
+        }
+        else if(ctx.IF() != null){
+            if(visitLexpr(ctx.lexpr(2))){
+                visitStmt_block(ctx.stmt_block(1));
+            }
+            else{
+                visitStmt_block(ctx.stmt_block(2));
+            }
+        }
+        else if(ctx.UNLESS() != null){
+            //se hace hasta que se cumpla la condicion?
+        }
+        else if(ctx.WHILE() != null){
+            while(visitLexpr(ctx.lexpr(4))) {
+                visitStmt_block(ctx.stmt_block(4));
+            }
+        }
+        else if(ctx.RETURN() != null){
+            return (T) visitLexpr(ctx.lexpr(5));
+        }
+        else if(ctx.UNTIL() != null){
+            while(!visitLexpr(ctx.lexpr(6))){
+                visitStmt_block(ctx.stmt_block(6));
+            }
+        }
+        else if(ctx.LOOP() != null){
+            //loop infinito????
+        }
+        else if(ctx.DO() != null){
+            if(ctx.WHILE() != null){
+                do{
+                    visitStmt_block(ctx.stmt_block(7));
+                }while(visitLexpr(ctx.lexpr(7)));
+            }
+            else if(ctx.UNTIL() != null){
+                do{
+                    visitStmt_block(ctx.stmt_block(8));
+                }while(!visitLexpr(ctx.lexpr(8)));
+            }
+        }
+        else if(ctx.REPEAT() != null){
+            //repetir un bloque un número de veces?
+            int iterator = Integer.parseInt(ctx.NUM().getSymbol().getText());
+            for (int i = 0; i < iterator; i++){
+                visitStmt_block(ctx.stmt_block(9));
+            }
+        }
+        else if(ctx.FOR() != null){
+            for (visitLexpr(ctx.lexpr(9)); visitLexpr(ctx.lexpr(10)); visitLexpr(ctx.lexpr(11))){ //?
+                visitStmt_block(ctx.stmt_block(10));
+            }
+        }
+        else if(ctx.NEXT() != null){
+            //No entiendo
+        }
+        else if(ctx.BREAK() != null){
+            //No entiendo
+        }
+        else if(ctx.ID() != null){
+            //FALTA
+        }
+        else if(ctx.SUBS() != null){
+            //FALTA
+        }
+        else if(ctx.ADD() != null){
+            //FALTA
+        }
         return null;
     }
 
