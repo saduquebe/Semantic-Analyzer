@@ -58,10 +58,10 @@ term    : factor ((MUL|DIV|MOD) factor)*
 
 factor  : NUM
         | BOOL
-        | ID ('++'| '--')?
-        | ('++'|'--')? ID
+        | ID (RIGHT_INC=ADD | RIGHT_DEC=SUBS)?
+        | (LEFT_INC=ADD | lEFT_DEC=SUBS)? ID
         | ID
-        | '(' lexpr ')'
+        | '(' ALONE_EXPR=lexpr ')'
         | FID '(' (lexpr (',' lexpr)*)? ')'
         ;
 
@@ -101,6 +101,6 @@ SUBS: '--';
 ADD: '++';
 END: 'end';
 NUM: [0-9]+([.][0-9]+)?;
-FID: [a-zA-Z]+;
+FID: '@'[a-zA-Z]+;
 ID: [a-zA-Z]+ ;
 ESP : [ \t\r\n]+ -> skip ;
