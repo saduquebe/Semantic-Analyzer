@@ -53,7 +53,7 @@ rexpr   : simple_expr (COMPARISONOP simple_expr)?
 simple_expr : term (SUMOP term)*
             ;
 
-term    : factor ((MUL|DIV|MOD) factor)*
+term    : factor (MULOP factor)*
         ;
 
 factor  : NUM
@@ -69,9 +69,7 @@ factor  : NUM
 main_prog   : (VAR var_decl ';')? stmt* END
             ;
 
-MUL: '*';
-DIV: '/';
-MOD: '%';
+MULOP: ('*'|'/'|'%');
 SUMOP: ('+'|'-');
 COMPARISONOP: ('<'|'=='|'<='|'>'|'>='|'!=');
 DATATYPE: ('num' | 'bool');

@@ -1,2 +1,2 @@
-print true + true + 5;
+print  2 / 2 * 3 / 3 % 2.0;
 end
