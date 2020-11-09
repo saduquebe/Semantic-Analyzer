@@ -61,7 +61,6 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     @Override
     public T visitStmt(BccLanguageParser.StmtContext ctx){
         if(ctx.PRINT() != null){
-            System.out.println("Se debe imprimir lo que retorne el lexpr");
             System.out.println(visitLexpr(ctx.lexpr(0)));
         }
         else if (ctx.INPUT() != null){
@@ -82,7 +81,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             //Hacer hasta que lexpr se de ?
         }
         else if(ctx.IF() != null){
-            if(visitLexpr(ctx.lexpr(2))){
+            if((Boolean) visitLexpr(ctx.lexpr(2))){
                 visitStmt_block(ctx.stmt_block(1));
             }
             else{
@@ -93,7 +92,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             //se hace hasta que se cumpla la condicion?
         }
         else if(ctx.WHILE() != null){
-            while(visitLexpr(ctx.lexpr(4))) {
+            while((Boolean) visitLexpr(ctx.lexpr(4))) {
                 visitStmt_block(ctx.stmt_block(4));
             }
         }
@@ -101,7 +100,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             return (T) visitLexpr(ctx.lexpr(5));
         }
         else if(ctx.UNTIL() != null){
-            while(!visitLexpr(ctx.lexpr(6))){
+            while(!(Boolean) visitLexpr(ctx.lexpr(6))){
                 visitStmt_block(ctx.stmt_block(6));
             }
         }
@@ -112,12 +111,12 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             if(ctx.WHILE() != null){
                 do{
                     visitStmt_block(ctx.stmt_block(7));
-                }while(visitLexpr(ctx.lexpr(7)));
+                }while((Boolean) visitLexpr(ctx.lexpr(7)));
             }
             else if(ctx.UNTIL() != null){
                 do{
                     visitStmt_block(ctx.stmt_block(8));
-                }while(!visitLexpr(ctx.lexpr(8)));
+                }while(!(Boolean) visitLexpr(ctx.lexpr(8)));
             }
         }
         else if(ctx.REPEAT() != null){
@@ -128,7 +127,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
         }
         else if(ctx.FOR() != null){
-            for (visitLexpr(ctx.lexpr(9)); visitLexpr(ctx.lexpr(10)); visitLexpr(ctx.lexpr(11))){ //?
+            for (visitLexpr(ctx.lexpr(9)); (Boolean)  visitLexpr(ctx.lexpr(10)); visitLexpr(ctx.lexpr(11))){ //?
                 visitStmt_block(ctx.stmt_block(10));
             }
         }
@@ -151,36 +150,38 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     }
 
     @Override
-    public Boolean visitLexpr(BccLanguageParser.LexprContext ctx){
+    public T visitLexpr(BccLanguageParser.LexprContext ctx){
         if (ctx.nexpr().size() == 1) {
             return visitNexpr(ctx.nexpr(0));
         }
-        boolean result = visitNexpr(ctx.nexpr(0));
+        boolean result = (Boolean)  visitNexpr(ctx.nexpr(0));
         if (ctx.AND() != null) {
             for (int i = 0; i < ctx.AND().size(); i++){
-                boolean nexpr = visitNexpr(ctx.nexpr(i + 1));
+                boolean nexpr = (Boolean)  visitNexpr(ctx.nexpr(i + 1));
                 result = result && nexpr;
             }
-            return result;
+            return (T) (Boolean) result;
         }
         for (int i = 0; i < ctx.OR().size(); i++){
-            boolean nexpr = visitNexpr(ctx.nexpr(i + 1));
+            boolean nexpr = (Boolean) visitNexpr(ctx.nexpr(i + 1));
             result = result || nexpr;
         }
-        return result;
+        return (T) (Boolean) result;
     }
 
     @Override
-    public Boolean visitNexpr(BccLanguageParser.NexprContext ctx){
-        if(ctx.NOT() != null) return  !visitLexpr(ctx.lexpr());
+    public T visitNexpr(BccLanguageParser.NexprContext ctx){
+        if(ctx.NOT() != null) {
+            Boolean result = !(Boolean) visitLexpr(ctx.lexpr());
+            return (T) result;
+        };
         return visitRexpr(ctx.rexpr());
     }
 
     @Override
-    public Boolean visitRexpr(BccLanguageParser.RexprContext ctx){
+    public T visitRexpr(BccLanguageParser.RexprContext ctx){
         if (ctx.simple_expr().size() == 1) {
-            Double simple_expr = (Double) visitSimple_expr(ctx.simple_expr(0));
-            return Math.abs(simple_expr) < 0.0000001;
+            return (T) (Double) visitSimple_expr(ctx.simple_expr(0));
         }
 
         Double simple_expr1 = (Double) visitSimple_expr(ctx.simple_expr(0));
@@ -189,17 +190,17 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
         switch (op) {
             case "<":
-                return simple_expr1 < simple_expr2;
+                return (T) (Boolean) (simple_expr1 < simple_expr2);
             case "==":
-                return simple_expr1.equals(simple_expr2);
+                return (T) (Boolean) (simple_expr1.equals(simple_expr2));
             case "<=":
-                return simple_expr1 <= simple_expr2;
+                return (T) (Boolean) (simple_expr1 <= simple_expr2);
             case ">":
-                return simple_expr1 > simple_expr2;
+                return (T) (Boolean) (simple_expr1 > simple_expr2);
             case ">=":
-                return simple_expr1 >= simple_expr2;
+                return (T) (Boolean) (simple_expr1 >= simple_expr2);
             case "!=":
-                return !simple_expr1.equals(simple_expr2);
+                return (T) (Boolean) (!simple_expr1.equals(simple_expr2));
         }
         return null;
     }
