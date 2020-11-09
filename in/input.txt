@@ -1,2 +1,2 @@
-print 1 and 1;
+print true + true + 5;
 end

@@ -176,8 +176,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     @Override
     public T visitNexpr(BccLanguageParser.NexprContext ctx){
         if(ctx.NOT() != null) {
-            // TODO: Valor de verdad de numeros
-            Boolean result = !(Boolean) visitLexpr(ctx.lexpr());
+            Boolean result = ! Utils.castToBoolean( visitLexpr(ctx.lexpr()));
             return (T) result;
         };
         return visitRexpr(ctx.rexpr());
@@ -189,8 +188,8 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             return (T) visitSimple_expr(ctx.simple_expr(0));
         }
 
-        Double simple_expr1 = (Double) visitSimple_expr(ctx.simple_expr(0));
-        Double simple_expr2 = (Double) visitSimple_expr(ctx.simple_expr(1));
+        Double simple_expr1 = Utils.castToDouble(visitSimple_expr(ctx.simple_expr(0)));
+        Double simple_expr2 = Utils.castToDouble(visitSimple_expr(ctx.simple_expr(1)));
         String op = ctx.COMPARISONOP().getText();
 
         switch (op) {
@@ -217,10 +216,9 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         }
 
         // Debe ser un numero
-
-        Double total = (Double) visitTerm(ctx.term(0));
+        Double total = Utils.castToDouble(visitTerm(ctx.term(0)));
         for (int i = 1 ; i < ctx.term().size() ; i++){
-            Double term = (Double) visitTerm(ctx.term(i));
+            Double term = Utils.castToDouble(visitTerm(ctx.term(i)));
             String op = ctx.SUMOP(i - 1).getText();
             switch(op){
                 case "+":
@@ -230,7 +228,6 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                     total -= term;
                     break;
             }
-
         }
         return (T) total;
     }
