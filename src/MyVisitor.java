@@ -154,15 +154,21 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         if (ctx.nexpr().size() == 1) {
             return visitNexpr(ctx.nexpr(0));
         }
+
         boolean result = (Boolean)  visitNexpr(ctx.nexpr(0));
-        if (ctx.AND() != null) {
-            for (int i = 0; i < ctx.AND().size(); i++){
+
+        if (ctx.AND().size() != 0) {
+            for (int i = 1; i < ctx.AND().size(); i++){
+                // TODO: Valor de verdad de numeros
                 boolean nexpr = (Boolean)  visitNexpr(ctx.nexpr(i + 1));
                 result = result && nexpr;
             }
+
             return (T) (Boolean) result;
         }
-        for (int i = 0; i < ctx.OR().size(); i++){
+
+        for (int i = 1; i < ctx.OR().size(); i++){
+            // TODO: Valor de verdad de numeros
             boolean nexpr = (Boolean) visitNexpr(ctx.nexpr(i + 1));
             result = result || nexpr;
         }
@@ -172,6 +178,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     @Override
     public T visitNexpr(BccLanguageParser.NexprContext ctx){
         if(ctx.NOT() != null) {
+            // TODO: Valor de verdad de numeros
             Boolean result = !(Boolean) visitLexpr(ctx.lexpr());
             return (T) result;
         };
@@ -181,7 +188,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     @Override
     public T visitRexpr(BccLanguageParser.RexprContext ctx){
         if (ctx.simple_expr().size() == 1) {
-            return (T) (Double) visitSimple_expr(ctx.simple_expr(0));
+            return (T) visitSimple_expr(ctx.simple_expr(0));
         }
 
         Double simple_expr1 = (Double) visitSimple_expr(ctx.simple_expr(0));
@@ -207,7 +214,13 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
     @Override
     public T visitSimple_expr(BccLanguageParser.Simple_exprContext ctx){
-        Double total = (Double) visitTerm(ctx.term(0)); // asumo que term NO PUEDE retornar bool
+        if (ctx.term().size() == 1) {
+            return visitTerm(ctx.term(0)); // puede ser un bool o un numero
+        }
+
+        // Debe ser un numero
+
+        Double total = (Double) visitTerm(ctx.term(0));
         for (int i = 1 ; i < ctx.term().size() ; i++){
             Double term = (Double) visitTerm(ctx.term(i));
             String op = ctx.SUMOP(i - 1).getText();
