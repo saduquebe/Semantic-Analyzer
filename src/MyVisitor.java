@@ -239,7 +239,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         Double answer = (Double) visitFactor(ctx.factor(0));
         for(int i =1;i<ctx.factor().size();i++){
             try {
-                Double fi = (Double) visitFactor(ctx.factor(i)); // Posible fallo si llega Boolean
+                Double fi = Utils.castToDouble(visitFactor(ctx.factor(i)));
                 if (ctx.DIV(i) != null) {
                     answer /= fi;
                 } else if (ctx.MUL(i) != null) {
