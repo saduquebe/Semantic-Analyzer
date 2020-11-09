@@ -1,4 +1,9 @@
-var a:num;
-a := 5;
-print a;
+var a:num, b:num;
+b := 4;
+
+
+print b++;
+print b;
+print ++b;
+print b;
 end

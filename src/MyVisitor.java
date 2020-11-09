@@ -24,7 +24,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 System.exit(-1);
             }else{
                 Datatype type = new Datatype();
-                if (ctx.DATATYPE(i).getText() == "num") {
+                if (ctx.DATATYPE(i).getText().equals("num")) {
                     type.setType(Datatype.Type.DOUBLE);
                     type.setValue(0.0);
                 } else {
@@ -356,7 +356,9 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 System.err.printf("<%d:%d> Error semantico, la variable con nombre: \"" + name + "\" no ha sido declarada.\n",line,col);
                 System.exit(-1);
             }
-            return (T) table.get(name); // puede ser Double o Boolean
+
+            Datatype var = (Datatype) table.get(name);
+            return (T) var.getValue();
         }
         if (ctx.ALONE_EXPR != null) {
             return (T) visitLexpr(ctx.lexpr(0));
