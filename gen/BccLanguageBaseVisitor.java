@@ -1,4 +1,4 @@
-// Generated from E:/Datos/Universidad/Octavo/Lenguajes/SemanticAnalyzer/grammar\BccLanguage.g4 by ANTLR 4.8
+// Generated from C:/Users/gabri/Desktop/unal/2020-2 Lenguajes/santiago/SemanticAnalyzer/grammar\BccLanguage.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

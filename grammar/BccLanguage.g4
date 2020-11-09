@@ -47,10 +47,10 @@ nexpr   : NOT '(' lexpr ')'
         | rexpr
         ;
 
-rexpr   : simple_expr (('<'|'=='|'<='|'>'|'>='|'!=') simple_expr)?
+rexpr   : simple_expr (COMPARISONOP simple_expr)?
         ;
 
-simple_expr : term (('+'|'-') term)*
+simple_expr : term (SUMOP term)*
             ;
 
 term    : factor ((MUL|DIV|MOD) factor)*
@@ -72,6 +72,8 @@ main_prog   : (VAR var_decl ';')? stmt* END
 MUL: '*';
 DIV: '/';
 MOD: '%';
+SUMOP: ('+'|'-');
+COMPARISONOP: ('<'|'=='|'<='|'>'|'>='|'!=');
 DATATYPE: ('num' | 'bool');
 FUNCTION: 'function';
 VAR: 'var';

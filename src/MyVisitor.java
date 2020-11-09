@@ -152,7 +152,22 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
     @Override
     public Boolean visitLexpr(BccLanguageParser.LexprContext ctx){
-        return null;
+        if (ctx.nexpr().size() == 1) {
+            return visitNexpr(ctx.nexpr(0));
+        }
+        boolean result = visitNexpr(ctx.nexpr(0));
+        if (ctx.AND() != null) {
+            for (int i = 0; i < ctx.AND().size(); i++){
+                boolean nexpr = visitNexpr(ctx.nexpr(i + 1));
+                result = result && nexpr;
+            }
+            return result;
+        }
+        for (int i = 0; i < ctx.OR().size(); i++){
+            boolean nexpr = visitNexpr(ctx.nexpr(i + 1));
+            result = result || nexpr;
+        }
+        return result;
     }
 
     @Override
@@ -163,12 +178,49 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
     @Override
     public Boolean visitRexpr(BccLanguageParser.RexprContext ctx){
+        if (ctx.simple_expr().size() == 1) {
+            Double simple_expr = (Double) visitSimple_expr(ctx.simple_expr(0));
+            return Math.abs(simple_expr) < 0.0000001;
+        }
+
+        Double simple_expr1 = (Double) visitSimple_expr(ctx.simple_expr(0));
+        Double simple_expr2 = (Double) visitSimple_expr(ctx.simple_expr(1));
+        String op = ctx.COMPARISONOP().getText();
+
+        switch (op) {
+            case "<":
+                return simple_expr1 < simple_expr2;
+            case "==":
+                return simple_expr1.equals(simple_expr2);
+            case "<=":
+                return simple_expr1 <= simple_expr2;
+            case ">":
+                return simple_expr1 > simple_expr2;
+            case ">=":
+                return simple_expr1 >= simple_expr2;
+            case "!=":
+                return !simple_expr1.equals(simple_expr2);
+        }
         return null;
     }
 
     @Override
     public T visitSimple_expr(BccLanguageParser.Simple_exprContext ctx){
-        return null;
+        Double total = (Double) visitTerm(ctx.term(0)); // asumo que term NO PUEDE retornar bool
+        for (int i = 1 ; i < ctx.term().size() ; i++){
+            Double term = (Double) visitTerm(ctx.term(i));
+            String op = ctx.SUMOP(i - 1).getText();
+            switch(op){
+                case "+":
+                    total += term;
+                    break;
+                case "-":
+                    total -= term;
+                    break;
+            }
+
+        }
+        return (T) total;
     }
 
     @Override
