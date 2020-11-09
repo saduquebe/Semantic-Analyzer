@@ -1,3 +1,4 @@
+import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -22,10 +23,15 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 System.err.printf("<%d:%d> Error semántico, la variable con nombre: " +name + " ya ha sido declarada.",line,col);
                 System.exit(-1);
             }else{
-                if (ctx.DATATYPE(i).getText() == "num")
-                    table.put(name, 0.0);
-                else
-                    table.put(name, true);
+                Datatype type = new Datatype();
+                if (ctx.DATATYPE(i).getText() == "num") {
+                    type.setType(Datatype.Type.DOUBLE);
+                    type.setValue(0.0);
+                } else {
+                    type.setType(Datatype.Type.BOOLEAN);
+                    type.setValue(true);
+                }
+                table.put(name, type);
             }
         }
         return null;
@@ -137,8 +143,54 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         else if(ctx.BREAK() != null){
             //No entiendo
         }
-        else if(ctx.ID() != null){
-            //FALTA
+        else if(ctx.ASSIGNOP() != null){
+            T result = visitLexpr(ctx.lexpr(0));
+            String name = ctx.ID().getText();
+            if (table.get(name) == null){
+                int line = ctx.ID().getSymbol().getLine();
+                int col = ctx.ID().getSymbol().getCharPositionInLine() + 1;
+                System.err.printf("<%d:%d> Error semántico, la variable con nombre: " +name + " no ha sido declarada.",line,col);
+                System.exit(-1);
+            }
+
+            String op = ctx.ASSIGNOP().getText();
+            Datatype var = (Datatype) table.get(name);
+            switch (op){
+                case ":=":
+                    var.setValue(result);
+                    break;
+                case "+=":
+                    if (var.getType() == Datatype.Type.DOUBLE)
+                        var.setValue( (Double) var.getValue() + Utils.castToDouble(result));
+                    else
+                        var.setValue( Utils.castToDouble(var.getValue()) + Utils.castToDouble(result));
+                    break;
+                case "-=":
+                    if (var.getType() == Datatype.Type.DOUBLE)
+                        var.setValue( (Double) var.getValue() - Utils.castToDouble(result));
+                    else
+                        var.setValue( Utils.castToDouble(var.getValue()) - Utils.castToDouble(result));
+                    break;
+                case "*=":
+                    if (var.getType() == Datatype.Type.DOUBLE)
+                        var.setValue( (Double) var.getValue() * Utils.castToDouble(result));
+                    else
+                        var.setValue( Utils.castToDouble(var.getValue()) * Utils.castToDouble(result));
+                    break;
+                case "/=":
+                    if (var.getType() == Datatype.Type.DOUBLE)
+                        var.setValue( (Double) var.getValue() / Utils.castToDouble(result));
+                    else
+                        var.setValue( Utils.castToDouble(var.getValue()) / Utils.castToDouble(result));
+                    break;
+                case "%=":
+                    if (var.getType() == Datatype.Type.DOUBLE)
+                        var.setValue( (Double) var.getValue() % Utils.castToDouble(result));
+                    else
+                        var.setValue( Utils.castToDouble(var.getValue()) % Utils.castToDouble(result));
+                    break;
+
+            }
         }
         else if(ctx.SUBS() != null){
             //FALTA

@@ -28,12 +28,7 @@ stmt    : PRINT lexpr ';'
         | FOR '(' lexpr ';' lexpr ';' lexpr ')' DO stmt_block
         | NEXT ';'
         | BREAK ';'
-        | ID ':=' lexpr ';'
-        | ID '+=' lexpr ';'
-        | ID '-=' lexpr ';'
-        | ID '*=' lexpr ';'
-        | ID '/=' lexpr ';'
-        | ID '%=' lexpr ';'
+        | ID ASSIGNOP lexpr ';'
         | ID '++' ';'
         | ID '--' ';'
         | SUBS ID ';'
@@ -72,6 +67,7 @@ main_prog   : (VAR var_decl ';')? stmt* END
 MULOP: ('*'|'/'|'%');
 SUMOP: ('+'|'-');
 COMPARISONOP: ('<'|'=='|'<='|'>'|'>='|'!=');
+ASSIGNOP: (':=' | '+=' | '-=' | '*=' | '/=' | '%=');
 DATATYPE: ('num' | 'bool');
 FUNCTION: 'function';
 VAR: 'var';
