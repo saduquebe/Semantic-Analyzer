@@ -236,7 +236,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     public T visitTerm(BccLanguageParser.TermContext ctx){
         if (ctx.factor().size() ==1) return visitFactor(ctx.factor(0));
 
-        Double answer = (Double) visitFactor(ctx.factor(0));
+        Double answer = Utils.castToDouble(visitFactor(ctx.factor(0)));
         for(int i =1;i<ctx.factor().size();i++){
             try {
                 Double fi = Utils.castToDouble(visitFactor(ctx.factor(i)));
