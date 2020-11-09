@@ -1237,7 +1237,7 @@ public class BccLanguageParser extends Parser {
 		public Token RIGHT_INC;
 		public Token RIGHT_DEC;
 		public Token LEFT_INC;
-		public Token lEFT_DEC;
+		public Token LEFT_DEC;
 		public LexprContext ALONE_EXPR;
 		public TerminalNode NUM() { return getToken(BccLanguageParser.NUM, 0); }
 		public TerminalNode BOOL() { return getToken(BccLanguageParser.BOOL, 0); }
@@ -1343,7 +1343,7 @@ public class BccLanguageParser extends Parser {
 				case SUBS:
 					{
 					setState(253);
-					((FactorContext)_localctx).lEFT_DEC = match(SUBS);
+					((FactorContext)_localctx).LEFT_DEC = match(SUBS);
 					}
 					break;
 				case ID:

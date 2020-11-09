@@ -59,7 +59,7 @@ term    : factor ((MUL|DIV|MOD) factor)*
 factor  : NUM
         | BOOL
         | ID (RIGHT_INC=ADD | RIGHT_DEC=SUBS)?
-        | (LEFT_INC=ADD | lEFT_DEC=SUBS)? ID
+        | (LEFT_INC=ADD | LEFT_DEC=SUBS)? ID
         | ID
         | '(' ALONE_EXPR=lexpr ')'
         | FID '(' (lexpr (',' lexpr)*)? ')'
