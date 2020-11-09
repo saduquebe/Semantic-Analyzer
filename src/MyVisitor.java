@@ -155,12 +155,11 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             return visitNexpr(ctx.nexpr(0));
         }
 
-        boolean result = (Boolean)  visitNexpr(ctx.nexpr(0));
+        boolean result = Utils.castToBoolean(visitNexpr(ctx.nexpr(0)));
 
         if (ctx.AND().size() != 0) {
             for (int i = 1; i < ctx.AND().size(); i++){
-                // TODO: Valor de verdad de numeros
-                boolean nexpr = (Boolean)  visitNexpr(ctx.nexpr(i + 1));
+                boolean nexpr = Utils.castToBoolean(visitNexpr(ctx.nexpr(i + 1)));
                 result = result && nexpr;
             }
 
@@ -168,8 +167,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         }
 
         for (int i = 1; i < ctx.OR().size(); i++){
-            // TODO: Valor de verdad de numeros
-            boolean nexpr = (Boolean) visitNexpr(ctx.nexpr(i + 1));
+            boolean nexpr = Utils.castToBoolean(visitNexpr(ctx.nexpr(i + 1)));
             result = result || nexpr;
         }
         return (T) (Boolean) result;
