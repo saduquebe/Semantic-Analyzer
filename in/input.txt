@@ -1,2 +1,4 @@
-print  true / 2 * 3 / 3;
+var a:num;
+a := 5;
+print a;
 end

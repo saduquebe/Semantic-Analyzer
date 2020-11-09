@@ -327,7 +327,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         if (ctx.BOOL() != null) {
             return (T) (Boolean) ctx.BOOL().getText().equals("true");
         }
-        if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null) {
+        if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null || ctx.LEFT_INC != null || ctx.LEFT_DEC != null) {
             String name = ctx.ID().getText();
             if(table.get(name) == null){
                 int line = ctx.ID().getSymbol().getLine();
@@ -335,30 +335,18 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 System.err.printf("<%d:%d> Error semantico, la variable con nombre: \"" + name + "\" no ha sido declarada.\n",line,col);
                 System.exit(-1);
             }
-            Double id = (Double) table.get(name);
-            if (ctx.RIGHT_INC != null) {
-                table.put(name, id + 1);
+            Datatype var = (Datatype) table.get(name);
+            Double id = (Double) var.getValue();
+            if (ctx.RIGHT_INC != null || ctx.LEFT_INC != null) {
+                var.setValue(id + 1);
             } else {
-                table.put(name, id - 1);
-            }
-            return (T) (Double) id;
-        }
-        if (ctx.LEFT_INC != null || ctx.LEFT_DEC != null) {
-            String name = ctx.ID().getText();
-            if (table.get(name) == null){
-                int line = ctx.ID().getSymbol().getLine();
-                int col = ctx.ID().getSymbol().getCharPositionInLine()+1;
-                System.err.printf("<%d:%d> Error semantico, la variable con nombre: \"" + name + "\" no ha sido declarada.\n",line,col);
-                System.exit(-1);
+                var.setValue(id - 1);
             }
 
-            Double id = (Double) table.get(name);
-            if (ctx.RIGHT_INC != null) {
-                table.put(name, id + 1);
-            } else {
-                table.put(name, id - 1);
+            if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null) {
+                return (T) id;
             }
-            return (T) (Double) table.get(name);
+            return (T) var.getValue();
         }
         if (ctx.ID() != null) {
             String name = ctx.ID().getText();
