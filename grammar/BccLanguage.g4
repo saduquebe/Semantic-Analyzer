@@ -100,7 +100,7 @@ BOOL: ('true' | 'false');
 SUBS: '--';
 ADD: '++';
 END: 'end';
-NUM: [0-9]+([.][0-9]+)?;
+NUM: ('-')?[0-9]+([.][0-9]+)?;
 FID: '@'[a-zA-Z]+;
 ID: [a-zA-Z]+ ;
 ESP : [ \t\r\n]+ -> skip ;
