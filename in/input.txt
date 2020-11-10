@@ -1,8 +1,8 @@
 var pi:num, x:num;
 pi:=3.1415;
-x:=1;
+x:=0;
 print pi;
 repeat 3: {
-    print 1;
+    pi /= x;
 }
 end;

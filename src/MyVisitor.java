@@ -118,7 +118,13 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 }
             }
         } else if (ctx.LOOP() != null) {
-            //loop infinito????
+            while(true){
+                visitStmt_block(ctx.stmt_block(0));
+                if (tk_break) {
+                    tk_break = false;
+                    break;
+                }
+            }
         } else if (ctx.DOWHILE != null) {
             do {
                 visitStmt_block(ctx.stmt_block(0));
@@ -197,14 +203,22 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                         var.setValue( Utils.castToDouble(var.getValue()) * Utils.castToDouble(result));
                     break;
                 case "/=":
-                    if (var.getType() == Datatype.Type.DOUBLE)
-                        var.setValue( (Double) var.getValue() / Utils.castToDouble(result));
+                    if (var.getType() == Datatype.Type.DOUBLE){
+                        if((Double)result == 0.0){
+                            System.out.println("Error semantico. No se puede dividir por 0");
+                            System.exit(-1);
+                        }
+                        var.setValue( (Double) var.getValue() / Utils.castToDouble(result));}
                     else
                         var.setValue( Utils.castToDouble(var.getValue()) / Utils.castToDouble(result));
                     break;
                 case "%=":
-                    if (var.getType() == Datatype.Type.DOUBLE)
-                        var.setValue( (Double) var.getValue() % Utils.castToDouble(result));
+                    if (var.getType() == Datatype.Type.DOUBLE){
+                        if((Double)result == 0.0){
+                            System.out.println("Error semantico. No se puede sacar modulo con 0");
+                            System.exit(-1);
+                        }
+                        var.setValue( (Double) var.getValue() % Utils.castToDouble(result));}
                     else
                         var.setValue( Utils.castToDouble(var.getValue()) % Utils.castToDouble(result));
                     break;
@@ -328,6 +342,10 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 Double fi = Utils.castToDouble(visitFactor(ctx.factor(i)));
                 switch (ctx.MULOP(i - 1).getText()) {
                     case "/":
+                        if(fi == 0.0){
+                            System.out.println("Error semantico. No se puede dividir por 0");
+                            System.exit(-1);
+                        }
                         answer /= fi;
                         break;
                     case "*":
