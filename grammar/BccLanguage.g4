@@ -18,21 +18,19 @@ stmt    : PRINT lexpr ';'
         | WHEN '(' lexpr ')' DO stmt_block
         | IF '(' lexpr ')' DO stmt_block ELSE stmt_block
         | UNLESS '(' lexpr ')' DO stmt_block
-        | WHILE '(' lexpr ')' DO stmt_block
+        | ALONEWHILE=WHILE '(' lexpr ')' DO stmt_block
         | RETURN lexpr ';'
-        | UNTIL '(' lexpr ')' DO stmt_block
+        | ALONEUNTIL=UNTIL '(' lexpr ')' DO stmt_block
         | LOOP stmt_block
-        | DO stmt_block WHILE '(' lexpr ')'
-        | DO stmt_block UNTIL '(' lexpr ')'
+        | DO stmt_block DOWHILE=WHILE '(' lexpr ')'
+        | DO stmt_block DOUNTIL=UNTIL '(' lexpr ')'
         | REPEAT NUM ':' stmt_block
         | FOR '(' lexpr ';' lexpr ';' lexpr ')' DO stmt_block
         | NEXT ';'
         | BREAK ';'
         | ID ASSIGNOP lexpr ';'
-        | ID '++' ';'
-        | ID '--' ';'
-        | SUBS ID ';'
-        | ADD ID ';'
+        | ID (RIGHT_INC=ADD | RIGHT_DEC=SUBS) ';'
+        | (LEFT_INC=ADD | LEFT_DEC=SUBS) ID ';'
         ;
 
 lexpr   : nexpr ((AND nexpr)* | (OR nexpr)*)
@@ -98,3 +96,4 @@ NUM: ('-')?[0-9]+([.][0-9]+)?;
 FID: '@'[a-zA-Z]+;
 ID: [a-zA-Z]+ ;
 ESP : [ \t\r\n]+ -> skip ;
+LINE_COMMENT : '#' ~[\r\n]* -> skip ;

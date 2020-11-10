@@ -1,10 +1,8 @@
-var z:num;
-z := 0;
-while (z < 10) do
-{
-    z := z + 1;
-    when(z == 3) do break;
-    print z;
+var pi:num, x:num;
+pi:=3.1415;
+x:=1;
+print pi;
+repeat 3: {
+    print 1;
 }
-print true;
-end
+end;

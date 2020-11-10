@@ -99,7 +99,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             if (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
                 visitStmt_block(ctx.stmt_block(0));
             }
-        } else if (ctx.WHILE() != null) {
+        } else if (ctx.ALONEWHILE != null) {
             while (Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
                     visitStmt_block(ctx.stmt_block(0));
                 if (tk_break) {
@@ -109,7 +109,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
         } else if (ctx.RETURN() != null) {
             return (T) visitLexpr(ctx.lexpr(0));
-        } else if (ctx.UNTIL() != null) {
+        } else if (ctx.ALONEUNTIL != null) {
             while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
                     visitStmt_block(ctx.stmt_block(0));
                 if (tk_break) {
@@ -119,20 +119,22 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
         } else if (ctx.LOOP() != null) {
             //loop infinito????
-        } else if (ctx.DO() != null) {
-            if (ctx.WHILE() != null) {
-                do {
-                        visitStmt_block(ctx.stmt_block(0));
-                    if (tk_break) {
-                        tk_break = false;
-                        break;
-                    }
-                } while ((Boolean)visitLexpr(ctx.lexpr(0)));
-            } else if (ctx.UNTIL() != null) {
-                do {
-                        visitStmt_block(ctx.stmt_block(0));
-                } while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0))));
-            }
+        } else if (ctx.DOWHILE != null) {
+            do {
+                visitStmt_block(ctx.stmt_block(0));
+                if (tk_break) {
+                    tk_break = false;
+                    break;
+                }
+            } while ((Boolean)visitLexpr(ctx.lexpr(0)));
+        } else if (ctx.DOUNTIL != null) {
+            do {
+                visitStmt_block(ctx.stmt_block(0));
+                if (tk_break) {
+                    tk_break = false;
+                    break;
+                }
+            } while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0))));
         } else if (ctx.REPEAT() != null) {
             //repetir un bloque un número de veces?
             int iterator = Integer.parseInt(ctx.NUM().getSymbol().getText());
@@ -146,8 +148,9 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
         }
         else if(ctx.FOR() != null){
+
             for (visitLexpr(ctx.lexpr(0)); Utils.castToBoolean(visitLexpr(ctx.lexpr(1))); visitLexpr(ctx.lexpr(2))){ //?
-                    visitStmt_block(ctx.stmt_block(0));
+                visitStmt_block(ctx.stmt_block(0));
                 if (tk_break) {
                     tk_break = false;
                     break;
@@ -208,11 +211,26 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
             }
         }
-        else if(ctx.SUBS() != null){
-            //Diferencia con ++i?
-        }
-        else if(ctx.ADD() != null){
-            //Diferencias con --i?
+        else if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null || ctx.LEFT_INC != null || ctx.LEFT_DEC != null) {
+            String name = ctx.ID().getText();
+            if (table.get(name) == null) {
+                int line = ctx.ID().getSymbol().getLine();
+                int col = ctx.ID().getSymbol().getCharPositionInLine() + 1;
+                System.err.printf("<%d:%d> Error semantico, la variable con nombre: \"" + name + "\" no ha sido declarada.\n", line, col);
+                System.exit(-1);
+            }
+            Datatype var = (Datatype) table.get(name);
+            Double id = (Double) var.getValue();
+            if (ctx.RIGHT_INC != null || ctx.LEFT_INC != null) {
+                var.setValue(id + 1);
+            } else {
+                var.setValue(id - 1);
+            }
+
+            if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null) {
+                return (T) id;
+            }
+            return (T) var.getValue();
         }
         return null;
     }

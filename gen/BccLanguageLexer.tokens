@@ -38,6 +38,7 @@ NUM=37
 FID=38
 ID=39
 ESP=40
+LINE_COMMENT=41
 ':'=1
 ','=2
 '('=3
