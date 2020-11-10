@@ -1,9 +1,12 @@
-var a:num, b:num;
-b := 4;
+var x:num, y:num;
+x := 2;
+y := 10;
 
+if ((x > y) == true) do
+{
+ print x;
+} else {
+ print y;
+}
 
-print b++;
-print b;
-print ++b;
-print b;
 end
