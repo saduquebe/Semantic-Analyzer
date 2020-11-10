@@ -1,12 +1,10 @@
-var x:num, y:num;
-x := 2;
-y := 10;
-
-if ((x > y) == true) do
+var z:num;
+z := 0;
+while (z < 10) do
 {
- print x;
-} else {
- print y;
+    z := z + 1;
+    when(z == 3) do break;
+    print z;
 }
-
+print true;
 end

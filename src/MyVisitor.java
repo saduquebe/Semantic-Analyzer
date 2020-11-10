@@ -58,6 +58,10 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         int stmtSize = ctx.stmt().size();
         if (stmtSize > 1) {
             for (int i = 0; i < stmtSize; i++) {
+                if(tk_next || tk_break){
+                    tk_next =false;
+                    return null;
+                }
                 visitStmt(ctx.stmt(i));
             }
         } else {
@@ -97,11 +101,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
         } else if (ctx.WHILE() != null) {
             while (Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
-                if (!tk_next) {
                     visitStmt_block(ctx.stmt_block(0));
-                } else {
-                    tk_next = false;
-                }
                 if (tk_break) {
                     tk_break = false;
                     break;
@@ -111,12 +111,9 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             return (T) visitLexpr(ctx.lexpr(0));
         } else if (ctx.UNTIL() != null) {
             while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
-                if (!tk_next) {
                     visitStmt_block(ctx.stmt_block(0));
-                } else {
-                    tk_next = false;
-                }
                 if (tk_break) {
+                    tk_break = false;
                     break;
                 }
             }
@@ -125,11 +122,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         } else if (ctx.DO() != null) {
             if (ctx.WHILE() != null) {
                 do {
-                    if (!tk_next) {
                         visitStmt_block(ctx.stmt_block(0));
-                    } else {
-                        tk_next = false;
-                    }
                     if (tk_break) {
                         tk_break = false;
                         break;
@@ -137,22 +130,14 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 } while ((Boolean)visitLexpr(ctx.lexpr(0)));
             } else if (ctx.UNTIL() != null) {
                 do {
-                    if (!tk_next) {
                         visitStmt_block(ctx.stmt_block(0));
-                    } else {
-                        tk_next = false;
-                    }
                 } while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0))));
             }
         } else if (ctx.REPEAT() != null) {
             //repetir un bloque un número de veces?
             int iterator = Integer.parseInt(ctx.NUM().getSymbol().getText());
             for (int i = 0; i < iterator; i++) {
-                if (!tk_next) {
                     visitStmt_block(ctx.stmt_block(0));
-                } else {
-                    tk_next = false;
-                }
                 if (tk_break) {
                     tk_break = false;
                     break;
@@ -162,11 +147,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         }
         else if(ctx.FOR() != null){
             for (visitLexpr(ctx.lexpr(0)); Utils.castToBoolean(visitLexpr(ctx.lexpr(1))); visitLexpr(ctx.lexpr(2))){ //?
-                if (!tk_next) {
                     visitStmt_block(ctx.stmt_block(0));
-                } else {
-                    tk_next = false;
-                }
                 if (tk_break) {
                     tk_break = false;
                     break;
