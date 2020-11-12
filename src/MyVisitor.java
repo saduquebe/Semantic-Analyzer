@@ -82,74 +82,73 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
         } else if (ctx.WHEN() != null) {
             if (Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
-                visitStmt_block(ctx.stmt_block(0));
+                return visitStmt_block(ctx.stmt_block(0));
             }
         } else if (ctx.IF() != null) {
             if (Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
-                visitStmt_block(ctx.stmt_block(0));
+                return visitStmt_block(ctx.stmt_block(0));
             } else {
-                visitStmt_block(ctx.stmt_block(1));
+                return visitStmt_block(ctx.stmt_block(1));
             }
         } else if (ctx.UNLESS() != null) {
             if (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
-                visitStmt_block(ctx.stmt_block(0));
+                return visitStmt_block(ctx.stmt_block(0));
             }
         } else if (ctx.ALONEWHILE != null) {
             while (Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
-                    visitStmt_block(ctx.stmt_block(0));
-                if (tk_break) {
+                T result = visitStmt_block(ctx.stmt_block(0));
+                if (tk_break || result != null) {
                     tk_break = false;
-                    break;
+                    return result;
                 }
             }
         } else if (ctx.RETURN() != null) {
             return visitLexpr(ctx.lexpr(0));
         } else if (ctx.ALONEUNTIL != null) {
             while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
-                    visitStmt_block(ctx.stmt_block(0));
-                if (tk_break) {
+                T result = visitStmt_block(ctx.stmt_block(0));
+                if (tk_break || result != null) {
                     tk_break = false;
-                    break;
+                    return result;
                 }
             }
         } else if (ctx.LOOP() != null) {
             while(true){
-                visitStmt_block(ctx.stmt_block(0));
-                if (tk_break) {
+                T result = visitStmt_block(ctx.stmt_block(0));
+                if (tk_break || result != null) {
                     tk_break = false;
-                    break;
+                    return result;
                 }
             }
         } else if (ctx.DOWHILE != null) {
             do {
-                visitStmt_block(ctx.stmt_block(0));
-                if (tk_break) {
+                T result = visitStmt_block(ctx.stmt_block(0));
+                if (tk_break || result != null) {
                     tk_break = false;
-                    break;
+                    return result;
                 }
             } while ((Boolean)visitLexpr(ctx.lexpr(0)));
         } else if (ctx.DOUNTIL != null) {
             do {
-                visitStmt_block(ctx.stmt_block(0));
-                if (tk_break) {
+                T result = visitStmt_block(ctx.stmt_block(0));
+                if (tk_break || result != null) {
                     tk_break = false;
-                    break;
+                    return result;
                 }
             } while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0))));
         } else if (ctx.REPEAT() != null) {
             //repetir un bloque un número de veces?
             int iterator = Integer.parseInt(ctx.NUM().getSymbol().getText());
             for (int i = 0; i < iterator; i++) {
-                    visitStmt_block(ctx.stmt_block(0));
-                if (tk_break) {
+                T result = visitStmt_block(ctx.stmt_block(0));
+                if (tk_break || result != null) {
                     tk_break = false;
-                    break;
+                    return result;
                 }
 
             }
         }
         else if(ctx.FOR() != null){
-
             for (visitLexpr(ctx.lexpr(0)); Utils.castToBoolean(visitLexpr(ctx.lexpr(1))); visitLexpr(ctx.lexpr(2))){ //?
                 visitStmt_block(ctx.stmt_block(0));
                 if (tk_break) {

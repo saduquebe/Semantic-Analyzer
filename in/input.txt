@@ -1,18 +1,21 @@
-function @inc:num (a:num) {
-    return ++a;
+## función min(x, y)
+function @min:num (x:num, y:num)
+{
+    when ((x < y) == true) do return x;
+    return y;
 }
-
-function @dec:num (in:num) {
-    return --in;
+## función max(x, y)
+function @max:num (x:num, y:num)
+{
+    if ((x < y) == false) do
+    {
+        return x;
+    }
+    else
+    {
+        return y;
+    }
 }
-
-function @suma:num (a:num, b: num) {
-    return a+b;
-}
-
-var x:num;
-++x;
-x:= @suma(@inc(x),@dec(6));
-
-print x; # 7.0
-end;
+print @min(1,2);
+print @max(1,2);
+end
