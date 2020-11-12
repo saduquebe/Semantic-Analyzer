@@ -92,7 +92,7 @@ BOOL: ('true' | 'false');
 SUBS: '--';
 ADD: '++';
 END: 'end';
-NUM: ('-')?[0-9]+([.][0-9]+)?;
+NUM: [0-9]+([.][0-9]+)?;
 FID: '@'[a-zA-Z][a-zA-Z0-9]*;
 ID: [a-zA-Z][a-zA-Z0-9]* ;
 ESP : [ \t\r\n]+ -> skip ;
