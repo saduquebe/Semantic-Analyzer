@@ -1,0 +1,22 @@
+function @fibonacci:num (posicion:num)
+	var x:num, siguiente:num, actual:num, temporal:num;
+{
+    siguiente:= 1;
+    actual:= 0;
+    temporal:= 0;
+    x:= 1;
+    while ( x <= posicion ) do {
+        print actual;
+        temporal:= actual;
+        actual:= siguiente;
+        siguiente+= temporal;
+        x++;
+    }
+    print actual;
+    return actual;
+}
+
+var result:num;
+result:= @fibonacci(9);
+
+end;

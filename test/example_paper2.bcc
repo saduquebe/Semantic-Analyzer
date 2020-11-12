@@ -1,0 +1,9 @@
+var z:num;
+z := 0;
+while (z < 10) do #En el paper falta el do
+{
+    z := z + 1;
+    print z;
+}
+#En el paper falta el end
+end

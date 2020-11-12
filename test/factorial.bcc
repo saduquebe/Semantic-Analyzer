@@ -1,0 +1,11 @@
+function @factorial:num (n:num) {
+   # base case
+   if(n == 0) do {
+      return 1;
+   } else {
+      return n*@factorial(n-1);
+   }
+}
+
+print @factorial(5);
+end;
