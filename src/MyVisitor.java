@@ -1,15 +1,16 @@
 import javax.xml.crypto.Data;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class MyVisitor<T> extends BccLanguageBaseVisitor {
-
-    HashMap<String, Object> table = new HashMap<>();
+    Stack <HashMap<String, Object>> scopes = new Stack<>();
     Boolean tk_break = false;
     Boolean tk_next = false;
 
     @Override
     public T visitProg(BccLanguageParser.ProgContext ctx) {
+        scopes.push(new HashMap<String, Object>());
         for (int i = 0; i < ctx.fn_decl_list().size(); i++) {
             visitFn_decl_list(ctx.fn_decl_list(i));
         }
@@ -20,7 +21,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     public T visitVar_decl(BccLanguageParser.Var_declContext ctx) {
         for (int i = 0; i < ctx.ID().size(); i++) {
             String name = ctx.ID(i).getText();
-            if (table.get(name) != null) {
+            if (scopes.peek().get(name) != null) {
                 int line = ctx.ID(i).getSymbol().getLine();
                 int col = ctx.ID(i).getSymbol().getCharPositionInLine() + 1;
                 System.err.printf("<%d:%d> Error semántico, la variable con nombre: " + name + " ya ha sido declarada.", line, col);
@@ -34,7 +35,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                     type.setType(Datatype.Type.BOOLEAN);
                     type.setValue(true);
                 }
-                table.put(name, type);
+                scopes.peek().put(name, type);
             }
         }
         return null;
@@ -77,12 +78,12 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         } else if (ctx.INPUT() != null) {
             Scanner scan = new Scanner(System.in);
             String id = ctx.ID().getSymbol().getText();
-            if (table.containsKey(id)) {
+            if (scopes.peek().containsKey(id)) {
                 System.out.println("Se va a reemplazar el valor de: " + id);
-                if ((Double) table.get(id) == 0.0) {
-                    table.replace(id, scan.nextDouble());
+                if ((Double) scopes.peek().get(id) == 0.0) {
+                    scopes.peek().replace(id, scan.nextDouble());
                 } else {
-                    table.replace(id, scan.nextBoolean());
+                    scopes.peek().replace(id, scan.nextBoolean());
                 }
             }
         } else if (ctx.WHEN() != null) {
@@ -171,7 +172,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         else if(ctx.ASSIGNOP() != null){
             T result = visitLexpr(ctx.lexpr(0));
             String name = ctx.ID().getText();
-            if (table.get(name) == null){
+            if (scopes.peek().get(name) == null){
                 int line = ctx.ID().getSymbol().getLine();
                 int col = ctx.ID().getSymbol().getCharPositionInLine() + 1;
                 System.err.printf("<%d:%d> Error semántico, la variable con nombre: " +name + " no ha sido declarada.",line,col);
@@ -179,7 +180,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
 
             String op = ctx.ASSIGNOP().getText();
-            Datatype var = (Datatype) table.get(name);
+            Datatype var = (Datatype) scopes.peek().get(name);
             switch (op){
                 case ":=":
                     var.setValue(result);
@@ -227,13 +228,13 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         }
         else if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null || ctx.LEFT_INC != null || ctx.LEFT_DEC != null) {
             String name = ctx.ID().getText();
-            if (table.get(name) == null) {
+            if (scopes.peek().get(name) == null) {
                 int line = ctx.ID().getSymbol().getLine();
                 int col = ctx.ID().getSymbol().getCharPositionInLine() + 1;
                 System.err.printf("<%d:%d> Error semantico, la variable con nombre: \"" + name + "\" no ha sido declarada.\n", line, col);
                 System.exit(-1);
             }
-            Datatype var = (Datatype) table.get(name);
+            Datatype var = (Datatype) scopes.peek().get(name);
             Double id = (Double) var.getValue();
             if (ctx.RIGHT_INC != null || ctx.LEFT_INC != null) {
                 var.setValue(id + 1);
@@ -381,13 +382,13 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         }
         if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null || ctx.LEFT_INC != null || ctx.LEFT_DEC != null) {
             String name = ctx.ID().getText();
-            if (table.get(name) == null) {
+            if (scopes.peek().get(name) == null) {
                 int line = ctx.ID().getSymbol().getLine();
                 int col = ctx.ID().getSymbol().getCharPositionInLine() + 1;
                 System.err.printf("<%d:%d> Error semantico, la variable con nombre: \"" + name + "\" no ha sido declarada.\n", line, col);
                 System.exit(-1);
             }
-            Datatype var = (Datatype) table.get(name);
+            Datatype var = (Datatype) scopes.peek().get(name);
             Double id = (Double) var.getValue();
             if (ctx.RIGHT_INC != null || ctx.LEFT_INC != null) {
                 var.setValue(id + 1);
@@ -402,14 +403,14 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         }
         if (ctx.ID() != null) {
             String name = ctx.ID().getText();
-            if (table.get(name) == null) {
+            if (scopes.peek().get(name) == null) {
                 int line = ctx.ID().getSymbol().getLine();
                 int col = ctx.ID().getSymbol().getCharPositionInLine() + 1;
                 System.err.printf("<%d:%d> Error semantico, la variable con nombre: \"" + name + "\" no ha sido declarada.\n", line, col);
                 System.exit(-1);
             }
 
-            Datatype var = (Datatype) table.get(name);
+            Datatype var = (Datatype) scopes.peek().get(name);
             return (T) var.getValue();
         }
         if (ctx.ALONE_EXPR != null) {
