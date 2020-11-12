@@ -52,21 +52,19 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
     @Override
     public T visitStmt_block(BccLanguageParser.Stmt_blockContext ctx) {
         int stmtSize = ctx.stmt().size();
-        if (stmtSize > 1) {
-            for (int i = 0; i < stmtSize; i++) {
-                if(tk_next || tk_break){
-                    tk_next = false;
-                    return null;
-                }
-                T result = visitStmt(ctx.stmt(i));
-                if (result != null) return result; // We hid a return statement
+        for (int i = 0; i < stmtSize; i++) {
+            T result = visitStmt(ctx.stmt(i));
+            if(tk_next || tk_break || result != null){
+                tk_next = false;
+                return result;
             }
         }
-        return visitStmt(ctx.stmt(0));
+        return null;
     }
 
     @Override
     public T visitStmt(BccLanguageParser.StmtContext ctx) {
+
         if (ctx.PRINT() != null) {
             System.out.println(visitLexpr(ctx.lexpr(0)));
         } else if (ctx.INPUT() != null) {
