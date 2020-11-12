@@ -243,19 +243,21 @@ public class BccLanguageParser extends Parser {
 	}
 
 	public static class Fn_decl_listContext extends ParserRuleContext {
+		public Var_declContext PARAMS;
+		public Var_declContext LOCAL_VAR;
 		public TerminalNode FUNCTION() { return getToken(BccLanguageParser.FUNCTION, 0); }
 		public TerminalNode FID() { return getToken(BccLanguageParser.FID, 0); }
 		public TerminalNode DATATYPE() { return getToken(BccLanguageParser.DATATYPE, 0); }
 		public Stmt_blockContext stmt_block() {
 			return getRuleContext(Stmt_blockContext.class,0);
 		}
+		public TerminalNode VAR() { return getToken(BccLanguageParser.VAR, 0); }
 		public List<Var_declContext> var_decl() {
 			return getRuleContexts(Var_declContext.class);
 		}
 		public Var_declContext var_decl(int i) {
 			return getRuleContext(Var_declContext.class,i);
 		}
-		public TerminalNode VAR() { return getToken(BccLanguageParser.VAR, 0); }
 		public Fn_decl_listContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -298,7 +300,7 @@ public class BccLanguageParser extends Parser {
 			if (_la==ID) {
 				{
 				setState(49);
-				var_decl();
+				((Fn_decl_listContext)_localctx).PARAMS = var_decl();
 				}
 			}
 
@@ -312,7 +314,7 @@ public class BccLanguageParser extends Parser {
 				setState(53);
 				match(VAR);
 				setState(54);
-				var_decl();
+				((Fn_decl_listContext)_localctx).LOCAL_VAR = var_decl();
 				setState(55);
 				match(T__4);
 				}

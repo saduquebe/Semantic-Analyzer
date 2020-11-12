@@ -1,11 +1,18 @@
-var pi:num, x:num;
-pi:=3.1415;
-x:=0;
-x++;
-x++;
-print pi;
-repeat 3: {
-    pi /= x;
+function @inc:num (a:num) {
+    return ++a;
 }
-print pi;
+
+function @dec:num (in:num) {
+    return --in;
+}
+
+function @suma:num (a:num, b: num) {
+    return a+b;
+}
+
+var x:num;
+++x;
+x:= @suma(@inc(x),@dec(6));
+
+print x; # 7.0
 end;

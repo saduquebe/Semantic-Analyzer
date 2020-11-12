@@ -4,8 +4,8 @@ prog    : fn_decl_list* main_prog;
 
 var_decl: ID ':' DATATYPE (',' ID ':' DATATYPE)*;
 
-fn_decl_list: FUNCTION FID ':' DATATYPE '(' var_decl? ')'
-            (VAR var_decl ';')?
+fn_decl_list: FUNCTION FID ':' DATATYPE '(' PARAMS=var_decl? ')'
+            (VAR LOCAL_VAR=var_decl ';')?
             stmt_block
             ;
 

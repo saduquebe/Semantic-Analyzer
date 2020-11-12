@@ -1,10 +1,12 @@
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Stack;
 
 public class MyVisitor<T> extends BccLanguageBaseVisitor {
     Stack <HashMap<String, Object>> scopes = new Stack<>();
+    HashMap<String, BccLanguageParser.Fn_decl_listContext> functions = new HashMap<>();
     Boolean tk_break = false;
     Boolean tk_next = false;
 
@@ -43,14 +45,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
 
     @Override
     public T visitFn_decl_list(BccLanguageParser.Fn_decl_listContext ctx) {
-        if (ctx.var_decl(0) != null) {
-            visitVar_decl(ctx.var_decl(0));
-        }
-        if (ctx.VAR() != null) {
-            visitVar_decl(ctx.var_decl(1));
-        }
-        visitStmt_block(ctx.stmt_block());
-
+        functions.put(ctx.FID().getText(), ctx);
         return null;
     }
 
@@ -60,15 +55,14 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
         if (stmtSize > 1) {
             for (int i = 0; i < stmtSize; i++) {
                 if(tk_next || tk_break){
-                    tk_next =false;
+                    tk_next = false;
                     return null;
                 }
-                visitStmt(ctx.stmt(i));
+                T result = visitStmt(ctx.stmt(i));
+                if (result != null) return result; // We hid a return statement
             }
-        } else {
-            visitStmt(ctx.stmt(0));
         }
-        return null;
+        return visitStmt(ctx.stmt(0));
     }
 
     @Override
@@ -109,7 +103,7 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
                 }
             }
         } else if (ctx.RETURN() != null) {
-            return (T) visitLexpr(ctx.lexpr(0));
+            return visitLexpr(ctx.lexpr(0));
         } else if (ctx.ALONEUNTIL != null) {
             while (!Utils.castToBoolean(visitLexpr(ctx.lexpr(0)))) {
                     visitStmt_block(ctx.stmt_block(0));
@@ -241,11 +235,6 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             } else {
                 var.setValue(id - 1);
             }
-
-            if (ctx.RIGHT_INC != null || ctx.RIGHT_DEC != null) {
-                return (T) id;
-            }
-            return (T) var.getValue();
         }
         return null;
     }
@@ -417,7 +406,18 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             return (T) visitLexpr(ctx.lexpr(0));
         }
         if (ctx.FID() != null) {
-            // NI IDEA COMO HACER ESTO
+            String name = ctx.FID().getText();
+            if(functions.get(name) == null) {
+                int line = ctx.FID().getSymbol().getLine();
+                int col = ctx.FID().getSymbol().getCharPositionInLine() + 1;
+                System.err.printf("<%d:%d> Error semántico, la funcion con nombre: " + name + " no ha sido declarada.",line,col);
+                System.exit(-1);
+            }
+            T result = callFunction(functions.get(name), ctx);
+            if (functions.get(name).DATATYPE().getText().equals("num")) {
+                return (T) Utils.castToDouble(result);
+            }
+            return (T) Utils.castToBoolean(result);
         }
         return null;
     }
@@ -433,6 +433,53 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             }
         }
         return null; // como saber que ya acabo?
+    }
+
+    private T callFunction(BccLanguageParser.Fn_decl_listContext ctxFn, BccLanguageParser.FactorContext ctxFc) {
+        int parameters = ctxFn.PARAMS.DATATYPE().size();
+
+        // revisar si la cantidad de parametros es correcta
+        if (parameters != ctxFc.lexpr().size()){
+            String name = ctxFn.FID().getText();
+            int line = ctxFc.FID().getSymbol().getLine();
+            int col = ctxFc.FID().getSymbol().getCharPositionInLine() + 1;
+            System.err.printf("<%d:%d> Error semántico, los parametros dados a la funcion: " + name + " no corresponden con su declaracion.",line,col);
+            System.exit(-1);
+        }
+
+        // Retornar si el statement vacio
+        if (ctxFn.stmt_block() == null) {
+            return (T) (Double) 0.0;
+        }
+
+        ArrayList<T> parameterValues = new ArrayList<>();
+        for (int i = 0; i < parameters; i++){
+            parameterValues.add(visitLexpr(ctxFc.lexpr(i)));
+        }
+
+        scopes.push(new HashMap<String, Object>());
+        // añadiendo parametros al scope
+        for (int i = 0; i < parameters; i++){
+            String paramName = ctxFn.PARAMS.ID(i).getText();
+            T value = parameterValues.get(i);
+            Datatype type = new Datatype();
+            if (ctxFn.PARAMS.DATATYPE(i).getText().equals("num")) {
+                type.setType(Datatype.Type.DOUBLE);
+                type.setValue(value);
+                scopes.peek().put(paramName, type);
+            } else {
+                type.setType(Datatype.Type.BOOLEAN);
+                type.setValue(value);
+                scopes.peek().put(paramName, type);
+            }
+        }
+        if (ctxFn.LOCAL_VAR != null) visitVar_decl(ctxFn.LOCAL_VAR);
+        T result = visitStmt_block(ctxFn.stmt_block());
+        if (result == null){
+            result = (T) (Double) 0.0; // si no hay resultado, se retorna el default
+        }
+        scopes.pop();
+        return result;
     }
 
 }
