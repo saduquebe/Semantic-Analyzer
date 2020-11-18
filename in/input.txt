@@ -1,16 +1,31 @@
-## GCD example
-function @gcd:num (a:num, b:num)
-{
-    ## Everything divides 0
-    when (a == 0) do return b;
-    when (b == 0) do return a;
-    when (a == b) do return a; ## base case
-
-    if (a > b) do
-        return @gcd(a-b, b);
-    else
-        return @gcd(a, b-a);
+## floor of x / 2
+function @floorBy2:num (x:num) {
+    when (x % 2 == 0) do return x / 2;
+    return (x - 1) / 2;
 }
-print @gcd(32, 24);
-print @gcd(21, 13);
+## Iterative Function to calculate (x^y)%p
+function @power:num (x:num, y:num, p:num)
+    var res:num;
+    {
+    res := 1;   ## Initialize result
+    x %= p; ## Update x if it is more than or equal to p
+    when (x == 0) do return 0; ## In case x is divisible by p;
+
+    while (y > 0) do
+    {
+        ## If y is odd, multiply x with result
+        when (y % 2 == 1) do
+            res := (res*x) % p;
+
+        ## y must be even now
+        y := @floorBy2(y);
+        x := (x*x) % p;
+    }
+    return res;
+}
+var x:num, y:num, p:num;
+x := 30;
+y := 20;
+p := 14;
+print @power(x, y, p);
 end

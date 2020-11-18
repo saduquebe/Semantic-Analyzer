@@ -31,21 +31,36 @@ print @gcd(21, 13);
 end
 
 
-# Power mod
-int power(int x, unsigned int y)
-{
-    int res = 1;     // Initialize result
 
-    while (y > 0)
+
+## floor of x / 2
+function @floorBy2:num (x:num) {
+    when (x % 2 == 0) do return x / 2;
+    return (x - 1) / 2;
+}
+## Iterative Function to calculate (x^y)%p
+function @power:num (x:num, y:num, p:num)
+    var res:num;
     {
-        // If y is odd, multiply x with result
-        if (y & 1)
-            res = res*x;
+    res := 1;   ## Initialize result
+    x %= p; ## Update x if it is more than or equal to p
+    when (x == 0) do return 0; ## In case x is divisible by p;
 
-        // y must be even now
-        y = y>>1; // y = y/2
-        x = x*x;  // Change x to x^2
+    while (y > 0) do
+    {
+        ## If y is odd, multiply x with result
+        when (y % 2 == 1) do
+            res := (res*x) % p;
+
+        ## y must be even now
+        y := @floorBy2(y);
+        x := (x*x) % p;
     }
     return res;
 }
-
+var x:num, y:num, p:num;
+x := 30;
+y := 20;
+p := 14;
+print @power(x, y, p);
+end
