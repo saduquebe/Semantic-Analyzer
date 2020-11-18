@@ -1,3 +1,10 @@
+/**
+ * Memebers:
+ * @Author Gabriel Andres Avendaño Casadiego  gavendanoc@unal.edu.co
+ * @Author Santiago Duque Bernal              saduquebe@unal.edu.co
+ * @Author Juan Diego Medina Naranjo          jmedinan@unal.edu.co
+ */
+
 import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -462,13 +469,11 @@ public class MyVisitor<T> extends BccLanguageBaseVisitor {
             Datatype type = new Datatype();
             if (ctxFn.PARAMS.DATATYPE(i).getText().equals("num")) {
                 type.setType(Datatype.Type.DOUBLE);
-                type.setValue(value);
-                scopes.peek().put(paramName, type);
             } else {
                 type.setType(Datatype.Type.BOOLEAN);
-                type.setValue(value);
-                scopes.peek().put(paramName, type);
             }
+            type.setValue(value);
+            scopes.peek().put(paramName, type);
         }
         if (ctxFn.LOCAL_VAR != null) visitVar_decl(ctxFn.LOCAL_VAR);
         T result = visitStmt_block(ctxFn.stmt_block());

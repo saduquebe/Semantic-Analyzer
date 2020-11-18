@@ -1,3 +1,10 @@
+/**
+ * Memebers:
+ * @Author Gabriel Andres Avendaño Casadiego  gavendanoc@unal.edu.co
+ * @Author Santiago Duque Bernal              saduquebe@unal.edu.co
+ * @Author Juan Diego Medina Naranjo          jmedinan@unal.edu.co
+ */
+
 public class Datatype {
     enum Type {
         BOOLEAN,
