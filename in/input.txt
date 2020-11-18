@@ -1,28 +1,12 @@
-var max:num, i:num;
-max := 3;
-
-unless (i == max) do {
-    print ++i;
+## Sums from 0 to n inclusive
+function @sumToN:num (n:num)
+    var total:num, i:num;
+    {
+    loop {
+        when (i == n) do return total;
+        total += ++i;
+    }
 }
-
-do {
-    print ++i;
-} until (i == 2 * max)
-
-while (i != 3 * max) do {
-    print ++i;
-}
-
-do {
-    print ++i;
-} while (i != 4 * max)
-
-loop {
-    print ++i;
-    when (i == 5 * max) do break;
-}
-
-repeat 3 : {
-    print ++i;
-}
+print @sumToN(5); # 15
+print @sumToN(0); # 0
 end
