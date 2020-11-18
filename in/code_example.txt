@@ -1,0 +1,51 @@
+## Sums from 0 to n inclusive
+function @sumToN:num (n:num)
+    var total:num, i:num;
+    {
+    loop {
+        when (i == n) do return total;
+        total += ++i;
+    }
+}
+print @sumToN(5);
+print @sumToN(0);
+end
+
+
+
+## GCD example
+function @gcd:num (a:num, b:num)
+{
+    ## Everything divides 0
+    when (a == 0) do return b;
+    when (b == 0) do return a;
+    when (a == b) do return a; ## base case
+
+    if (a > b) do
+        return @gcd(a-b, b);
+    else
+        return @gcd(a, b-a);
+}
+print @gcd(32, 24);
+print @gcd(21, 13);
+end
+
+
+# Power mod
+int power(int x, unsigned int y)
+{
+    int res = 1;     // Initialize result
+
+    while (y > 0)
+    {
+        // If y is odd, multiply x with result
+        if (y & 1)
+            res = res*x;
+
+        // y must be even now
+        y = y>>1; // y = y/2
+        x = x*x;  // Change x to x^2
+    }
+    return res;
+}
+

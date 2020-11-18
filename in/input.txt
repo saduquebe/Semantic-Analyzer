@@ -1,21 +1,16 @@
-## función min(x, y)
-function @min:num (x:num, y:num)
+## GCD example
+function @gcd:num (a:num, b:num)
 {
-    when ((x < y) == true) do return x;
-    return y;
-}
-## función max(x, y)
-function @max:num (x:num, y:num)
-{
-    if ((x < y) == false) do
-    {
-        return x;
-    }
+    ## Everything divides 0
+    when (a == 0) do return b;
+    when (b == 0) do return a;
+    when (a == b) do return a; ## base case
+
+    if (a > b) do
+        return @gcd(a-b, b);
     else
-    {
-        return y;
-    }
+        return @gcd(a, b-a);
 }
-print @min(1,2);
-print @max(1,2);
+print @gcd(32, 24);
+print @gcd(21, 13);
 end
